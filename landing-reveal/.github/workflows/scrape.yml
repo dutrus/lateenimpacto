@@ -1,0 +1,29 @@
+name: Scrape Opportunities
+
+on:
+  # Run twice a week to fetch new opportunities automatically.  Adjust the
+  # schedule to your needs.  Times are in UTC.
+  schedule:
+    - cron: "0 9 * * 1,4" # Mondays and Thursdays at 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Install dependencies using npm.  If you prefer pnpm or yarn,
+      # adjust accordingly.
+      - run: npm ci
+      # Install Playwright browsers and required system dependencies
+      - run: npx playwright install --with-deps
+      # Run the scraping script with ts-node.  The environment variables
+      # SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in your
+      # repository secrets.
+      - run: npx ts-node scrapers/run-all.ts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

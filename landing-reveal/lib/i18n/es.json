@@ -1,0 +1,256 @@
+{
+  "navigation": {
+    "contact": "Contacto",
+    "faq": "FAQ",
+    "home": "Inicio",
+    "mission": "Misión",
+    "history": "Historia",
+    "language": "English"
+  },
+  "home": {
+    "title": "Lateen Impacto",
+    "subtitle": "No todos tenemos las mismas oportunidades. Pero todos tenemos más oportunidades de las que creemos.",
+    "mission": "Misión",
+    "pillars": {
+      "title": "Pilares del proyecto",
+      "opportunities": {
+        "title": "Difusión de oportunidades",
+        "description": "Becas, torneos, olimpiadas, intercambios, cursos gratuitos, etc.",
+        "button": "¡Quiero saber más!"
+      },
+      "community": {
+        "title": "Comunidad activa",
+        "description": "Jóvenes ayudando a jóvenes, con apoyo de mentores, ex-becados o voluntarios.",
+        "button": "¡Quiero saber más!"
+      },
+      "curation": {
+        "title": "Curaduría de contenido",
+        "description": "Resumen de convocatorias, consejos y guías prácticas.",
+        "button": "¡Quiero saber más!"
+      }
+    }
+  },
+  "mission": {
+    "title": "Nuestra Misión",
+    "description": "Lateen Impacto busca democratizar el acceso a oportunidades educativas y de desarrollo personal para jóvenes, conectándolos con recursos, programas y comunidades que potencien su futuro.",
+    "historyButton": "¿Cómo nació Lateen Impacto?"
+  },
+  "history": {
+    "title": "Nuestra Historia",
+    "subtitle": "¿Cómo nació Lateen Impacto?",
+    "intro": {
+      "p1": "Lateen Impacto nació en 2019 de la experiencia personal de su fundadora, Lucía Martínez, quien durante su adolescencia descubrió casi por casualidad una beca que le permitió estudiar en el extranjero y cambió completamente su trayectoria educativa y profesional.",
+      "p2": "Al regresar a Argentina, Lucía se dio cuenta de que muchos jóvenes con talento y potencial nunca llegaban a conocer las oportunidades que podrían transformar sus vidas, simplemente por falta de información o por no saber cómo acceder a ellas. Así surgió la idea de crear una plataforma que democratizara el acceso a estas oportunidades."
+    },
+    "firstSteps": {
+      "title": "Los primeros pasos",
+      "p1": "Lo que comenzó como un simple blog y una cuenta de Instagram donde Lucía compartía becas y oportunidades que encontraba, pronto se convirtió en una comunidad activa. Otros jóvenes que habían participado en programas similares comenzaron a sumarse como voluntarios, aportando su experiencia y conocimiento.",
+      "p2": "En 2020, durante la pandemia, el proyecto dio un salto importante: la necesidad de información sobre oportunidades educativas virtuales creció exponencialmente, y Lateen Impacto respondió organizando webinars, creando guías detalladas y estableciendo un sistema de mentoría virtual."
+    },
+    "growth": {
+      "title": "Crecimiento y evolución",
+      "p1": "Con el tiempo, Lateen Impacto evolucionó de ser un simple canal de difusión a convertirse en un ecosistema completo de apoyo para jóvenes buscando oportunidades. Desarrollamos tres pilares fundamentales:",
+      "pillars": [
+        "Difusión de oportunidades: Ampliamos nuestra cobertura para incluir no solo becas, sino también competencias, programas de liderazgo, intercambios y más.",
+        "Comunidad activa: Formalizamos nuestra red de voluntarios y mentores, creando espacios de intercambio y apoyo mutuo.",
+        "Curaduría de contenido: Desarrollamos recursos propios como guías, plantillas y consejos prácticos para facilitar el proceso de aplicación."
+      ]
+    },
+    "impact": {
+      "title": "Impacto y resultados",
+      "p1": "Hasta la fecha, Lateen Impacto ha ayudado a más de 5,000 jóvenes a encontrar y aplicar a oportunidades educativas. Más de 500 de ellos han obtenido becas o han participado en programas internacionales gracias a la orientación y recursos proporcionados por nuestra plataforma.",
+      "p2": "Nuestro equipo ha crecido hasta contar con más de 30 voluntarios activos en diferentes provincias de Argentina, y hemos establecido alianzas con universidades, fundaciones y organizaciones educativas que comparten nuestra misión."
+    },
+    "future": {
+      "title": "Mirando al futuro",
+      "p1": "El viaje de Lateen Impacto continúa. Nuestro objetivo es seguir expandiendo nuestro alcance, desarrollar herramientas tecnológicas que faciliten aún más el acceso a oportunidades, y crear programas propios que complementen las opciones existentes.",
+      "p2": "Creemos firmemente que el acceso a la información y a las oportunidades educativas no debería depender del azar o de los privilegios. Con cada joven que apoyamos, estamos construyendo un futuro más equitativo y lleno de posibilidades para todos."
+    },
+    "backToMission": "Volver a Misión"
+  },
+  "opportunities": {
+    "scholarships": {
+      "title": "Becas",
+      "description": "Descubre oportunidades de becas nacionales e internacionales para continuar tu formación académica.",
+      "filters": {
+        "title": "Filtros",
+        "allLevels": "Todos los niveles",
+        "allAreas": "Todas las áreas",
+        "results": "becas encontradas",
+        "noResults": "No se encontraron becas con los filtros seleccionados."
+      },
+      "details": {
+        "deadline": "Fecha límite",
+        "country": "País",
+        "area": "Área",
+        "funding": "Financiamiento",
+        "requirements": "Requisitos",
+        "moreInfo": "Más información"
+      }
+    },
+    "competitions": {
+      "title": "Competencias Académicas",
+      "description": "Descubre competencias y olimpiadas para estudiantes de secundaria y universidad en diversas disciplinas.",
+      "filters": {
+        "title": "Filtros",
+        "allLevels": "Todos los niveles",
+        "allAreas": "Todas las áreas",
+        "results": "competencias encontradas",
+        "noResults": "No se encontraron competencias con los filtros seleccionados."
+      },
+      "details": {
+        "nextDate": "Fecha próxima",
+        "location": "Ubicación",
+        "area": "Área",
+        "modality": "Modalidad",
+        "process": "Proceso de selección",
+        "requirements": "Requisitos",
+        "moreInfo": "Más información"
+      }
+    },
+    "programs": {
+      "title": "Programas y Fellowships",
+      "description": "Descubre programas de liderazgo, fellowships y oportunidades para desarrollar tu potencial y generar impacto en tu comunidad y el mundo.",
+      "filters": {
+        "title": "Filtros",
+        "allLevels": "Todos los niveles",
+        "allAreas": "Todas las áreas",
+        "results": "programas encontrados",
+        "noResults": "No se encontraron programas con los filtros seleccionados."
+      },
+      "details": {
+        "deadline": "Fecha límite",
+        "country": "País/Región",
+        "area": "Área",
+        "duration": "Duración",
+        "funding": "Financiamiento",
+        "process": "Proceso de selección",
+        "requirements": "Requisitos",
+        "moreInfo": "Más información"
+      }
+    }
+  },
+  "community": {
+    "help": {
+      "title": "Necesito ayuda",
+      "subtitle": "Sabemos que buscar oportunidades puede ser abrumador. Por eso, en Lateen Impacto queremos acompañarte en cada paso. Elegí la opción que mejor se adapte a lo que necesitás:",
+      "options": {
+        "findOpportunities": {
+          "title": "📚 Quiero encontrar oportunidades",
+          "description": "Te ayudamos a descubrir becas, concursos, olimpiadas, intercambios y más.",
+          "button": "Explorar oportunidades"
+        },
+        "getStarted": {
+          "title": "🤔 No sé por dónde empezar",
+          "description": "¿Te sentís perdido/a? Completá este formulario y te guiamos paso a paso.",
+          "button": "Necesito orientación personalizada"
+        },
+        "talkToTeam": {
+          "title": "💬 Quiero hablar con alguien del equipo",
+          "description": "Podés contactarnos por redes sociales o email, o pedir una llamada breve para resolver tus dudas.",
+          "button": "Contactar al equipo"
+        },
+        "questions": {
+          "title": "💡 Tengo una duda puntual",
+          "description": "Revisá nuestras preguntas frecuentes o escribinos directamente.",
+          "faqButton": "Preguntas frecuentes",
+          "contactButton": "Enviar mensaje"
+        }
+      }
+    },
+    "volunteer": {
+      "title": "Me gustaría ser voluntario",
+      "subtitle": "🤝 ¡Sé parte de Lateen Impacto como voluntario/a!",
+      "intro": "¿Querés ayudar a que más jóvenes argentinos descubran y aprovechen oportunidades educativas que pueden cambiar sus vidas? En Lateen Impacto buscamos personas con compromiso social, pasión por la educación y ganas de construir comunidad.",
+      "whoCanVolunteer": {
+        "title": "🌟 ¿Quiénes pueden ser voluntarios/as?",
+        "description": "No necesitás experiencia previa, solo ganas de sumar. Estos son nuestros requisitos básicos:",
+        "requirements": [
+          "Tener 16 años o más.",
+          "Vivir en Argentina (o estar comprometido/a con la educación de jóvenes argentinos).",
+          "Contar con conexión a internet y herramientas digitales básicas.",
+          "Poder dedicar al menos 2-4 horas semanales.",
+          "Compartir valores como empatía, inclusión, equidad y compromiso."
+        ]
+      },
+      "terms": {
+        "title": "📜 Términos y condiciones del voluntariado",
+        "conditions": [
+          "Este es un rol voluntario, no remunerado, y no genera una relación laboral ni contractual.",
+          "Cuidamos la confidencialidad de la información que circula dentro del equipo.",
+          "Fomentamos un ambiente seguro, colaborativo y sin discriminación. No se tolerarán actitudes violentas o irrespetuosas.",
+          "Los contenidos creados en equipo pueden ser utilizados por Lateen Impacto con fines educativos o de difusión, reconociendo autoría cuando corresponda.",
+          "Podés finalizar tu participación en cualquier momento, avisando con tiempo.",
+          "Nos reservamos el derecho de interrumpir la participación si se incumplen estas condiciones o se afecta el bienestar del equipo."
+        ]
+      },
+      "joinUs": {
+        "title": "✍️ ¿Te interesa sumarte?",
+        "description": "Completá este formulario y te vamos a contactar lo antes posible:",
+        "button": "👉 Quiero ser voluntario/a"
+      }
+    },
+    "guidance": {
+      "title": "Orientación Personalizada",
+      "subtitle": "Completa este formulario y nuestro equipo te contactará para brindarte orientación específica según tus necesidades e intereses.",
+      "form": {
+        "name": {
+          "label": "Nombre completo *",
+          "placeholder": "Tu nombre completo",
+          "error": "El nombre es obligatorio"
+        },
+        "email": {
+          "label": "Email *",
+          "placeholder": "tu.email@ejemplo.com",
+          "error": "El email no es válido"
+        },
+        "phone": {
+          "label": "Teléfono (opcional)",
+          "placeholder": "+54 11 1234 5678"
+        },
+        "educationLevel": {
+          "label": "Nivel educativo actual *",
+          "placeholder": "Selecciona tu nivel educativo",
+          "error": "Por favor selecciona tu nivel educativo",
+          "options": {
+            "secondary": "Secundario",
+            "university": "Universitario",
+            "postgraduate": "Posgrado",
+            "professional": "Profesional",
+            "other": "Otro"
+          }
+        },
+        "interestArea": {
+          "label": "Área de interés principal *",
+          "placeholder": "Selecciona un área",
+          "error": "Por favor selecciona un área de interés",
+          "options": {
+            "scholarships": "Becas académicas",
+            "competitions": "Competencias y olimpiadas",
+            "programs": "Programas y fellowships",
+            "exchanges": "Intercambios",
+            "volunteering": "Voluntariado",
+            "other": "Otro"
+          }
+        },
+        "message": {
+          "label": "Tu consulta *",
+          "placeholder": "Describe tu situación y qué tipo de orientación necesitas...",
+          "error": "Tu mensaje debe tener al menos 20 caracteres"
+        },
+        "submit": "Enviar consulta",
+        "sending": "Enviando...",
+        "success": {
+          "title": "¡Formulario enviado con éxito!",
+          "message": "Gracias por contactarnos. Nuestro equipo revisará tu consulta y te responderá a la brevedad."
+        }
+      }
+    }
+  },
+  "common": {
+    "backToHome": "Volver al inicio",
+    "footer": {
+      "rights": "Todos los derechos reservados."
+    }
+  }
+}

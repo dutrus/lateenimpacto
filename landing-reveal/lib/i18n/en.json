@@ -1,0 +1,256 @@
+{
+  "navigation": {
+    "contact": "Contact",
+    "faq": "FAQ",
+    "home": "Home",
+    "mission": "Mission",
+    "history": "History",
+    "language": "Español"
+  },
+  "home": {
+    "title": "Lateen Impact",
+    "subtitle": "Not all of us have the same opportunities. But we all have more opportunities than we think.",
+    "mission": "Mission",
+    "pillars": {
+      "title": "Project pillars",
+      "opportunities": {
+        "title": "Opportunity sharing",
+        "description": "Scholarships, tournaments, olympiads, exchanges, free courses, etc.",
+        "button": "I want to know more!"
+      },
+      "community": {
+        "title": "Active community",
+        "description": "Young people helping young people, with support from mentors, former scholars, and volunteers.",
+        "button": "I want to know more!"
+      },
+      "curation": {
+        "title": "Content curation",
+        "description": "Summary of calls for applications, tips, and practical guides.",
+        "button": "I want to know more!"
+      }
+    }
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "Lateen Impact seeks to democratize access to educational and personal development opportunities for young people, connecting them with resources, programs, and communities that enhance their future.",
+    "historyButton": "How was Lateen Impact born?"
+  },
+  "history": {
+    "title": "Our History",
+    "subtitle": "How was Lateen Impact born?",
+    "intro": {
+      "p1": "Lateen Impact was born in 2019 from the personal experience of its founder, Lucía Martínez, who during her adolescence discovered almost by chance a scholarship that allowed her to study abroad and completely changed her educational and professional trajectory.",
+      "p2": "Upon returning to Argentina, Lucía realized that many talented young people with potential never got to know about opportunities that could transform their lives, simply due to lack of information or not knowing how to access them. Thus, the idea of creating a platform that would democratize access to these opportunities emerged."
+    },
+    "firstSteps": {
+      "title": "The first steps",
+      "p1": "What began as a simple blog and an Instagram account where Lucía shared scholarships and opportunities she found, soon became an active community. Other young people who had participated in similar programs began to join as volunteers, contributing their experience and knowledge.",
+      "p2": "In 2020, during the pandemic, the project took a significant leap: the need for information about virtual educational opportunities grew exponentially, and Lateen Impact responded by organizing webinars, creating detailed guides, and establishing a virtual mentoring system."
+    },
+    "growth": {
+      "title": "Growth and evolution",
+      "p1": "Over time, Lateen Impact evolved from being a simple dissemination channel to becoming a complete support ecosystem for young people seeking opportunities. We developed three fundamental pillars:",
+      "pillars": [
+        "Opportunity sharing: We expanded our coverage to include not only scholarships, but also competitions, leadership programs, exchanges, and more.",
+        "Active community: We formalized our network of volunteers and mentors, creating spaces for exchange and mutual support.",
+        "Content curation: We developed our own resources such as guides, templates, and practical advice to facilitate the application process."
+      ]
+    },
+    "impact": {
+      "title": "Impact and results",
+      "p1": "To date, Lateen Impact has helped more than 5,000 young people find and apply for educational opportunities. More than 500 of them have obtained scholarships or participated in international programs thanks to the guidance and resources provided by our platform.",
+      "p2": "Our team has grown to include more than 30 active volunteers in different provinces of Argentina, and we have established alliances with universities, foundations, and educational organizations that share our mission."
+    },
+    "future": {
+      "title": "Looking to the future",
+      "p1": "Lateen Impact's journey continues. Our goal is to continue expanding our reach, develop technological tools that further facilitate access to opportunities, and create our own programs that complement existing options.",
+      "p2": "We firmly believe that access to information and educational opportunities should not depend on chance or privilege. With each young person we support, we are building a more equitable future full of possibilities for everyone."
+    },
+    "backToMission": "Back to Mission"
+  },
+  "opportunities": {
+    "scholarships": {
+      "title": "Scholarships",
+      "description": "Discover national and international scholarship opportunities to continue your academic education.",
+      "filters": {
+        "title": "Filters",
+        "allLevels": "All levels",
+        "allAreas": "All areas",
+        "results": "scholarships found",
+        "noResults": "No scholarships found with the selected filters."
+      },
+      "details": {
+        "deadline": "Deadline",
+        "country": "Country",
+        "area": "Area",
+        "funding": "Funding",
+        "requirements": "Requirements",
+        "moreInfo": "More information"
+      }
+    },
+    "competitions": {
+      "title": "Academic Competitions",
+      "description": "Discover competitions and olympiads for high school and university students in various disciplines.",
+      "filters": {
+        "title": "Filters",
+        "allLevels": "All levels",
+        "allAreas": "All areas",
+        "results": "competitions found",
+        "noResults": "No competitions found with the selected filters."
+      },
+      "details": {
+        "nextDate": "Next date",
+        "location": "Location",
+        "area": "Area",
+        "modality": "Modality",
+        "process": "Selection process",
+        "requirements": "Requirements",
+        "moreInfo": "More information"
+      }
+    },
+    "programs": {
+      "title": "Programs and Fellowships",
+      "description": "Discover leadership programs, fellowships, and opportunities to develop your potential and make an impact in your community and the world.",
+      "filters": {
+        "title": "Filters",
+        "allLevels": "All levels",
+        "allAreas": "All areas",
+        "results": "programs found",
+        "noResults": "No programs found with the selected filters."
+      },
+      "details": {
+        "deadline": "Deadline",
+        "country": "Country/Region",
+        "area": "Area",
+        "duration": "Duration",
+        "funding": "Funding",
+        "process": "Selection process",
+        "requirements": "Requirements",
+        "moreInfo": "More information"
+      }
+    }
+  },
+  "community": {
+    "help": {
+      "title": "I need help",
+      "subtitle": "We know that searching for opportunities can be overwhelming. That's why at Lateen Impact we want to accompany you every step of the way. Choose the option that best suits what you need:",
+      "options": {
+        "findOpportunities": {
+          "title": "📚 I want to find opportunities",
+          "description": "We help you discover scholarships, competitions, olympiads, exchanges, and more.",
+          "button": "Explore opportunities"
+        },
+        "getStarted": {
+          "title": "🤔 I don't know where to start",
+          "description": "Feeling lost? Fill out this form and we'll guide you step by step.",
+          "button": "I need personalized guidance"
+        },
+        "talkToTeam": {
+          "title": "💬 I want to talk to someone from the team",
+          "description": "You can contact us through social media or email, or request a brief call to resolve your doubts.",
+          "button": "Contact the team"
+        },
+        "questions": {
+          "title": "💡 I have a specific question",
+          "description": "Check our frequently asked questions or write to us directly.",
+          "faqButton": "Frequently asked questions",
+          "contactButton": "Send message"
+        }
+      }
+    },
+    "volunteer": {
+      "title": "I would like to volunteer",
+      "subtitle": "🤝 Be part of Lateen Impact as a volunteer!",
+      "intro": "Do you want to help more young Argentinians discover and take advantage of educational opportunities that can change their lives? At Lateen Impact, we look for people with social commitment, passion for education, and desire to build community.",
+      "whoCanVolunteer": {
+        "title": "🌟 Who can be volunteers?",
+        "description": "You don't need previous experience, just willingness to contribute. These are our basic requirements:",
+        "requirements": [
+          "Be 16 years or older.",
+          "Live in Argentina (or be committed to the education of young Argentinians).",
+          "Have internet connection and basic digital tools.",
+          "Be able to dedicate at least 2-4 hours weekly.",
+          "Share values such as empathy, inclusion, equity, and commitment."
+        ]
+      },
+      "terms": {
+        "title": "📜 Terms and conditions of volunteering",
+        "conditions": [
+          "This is a volunteer role, unpaid, and does not create an employment or contractual relationship.",
+          "We protect the confidentiality of information that circulates within the team.",
+          "We foster a safe, collaborative, and non-discriminatory environment. Violent or disrespectful attitudes will not be tolerated.",
+          "Content created as a team can be used by Lateen Impact for educational or dissemination purposes, acknowledging authorship when appropriate.",
+          "You can end your participation at any time, with advance notice.",
+          "We reserve the right to terminate participation if these conditions are not met or if the well-being of the team is affected."
+        ]
+      },
+      "joinUs": {
+        "title": "✍️ Interested in joining?",
+        "description": "Complete this form and we will contact you as soon as possible:",
+        "button": "👉 I want to be a volunteer"
+      }
+    },
+    "guidance": {
+      "title": "Personalized Guidance",
+      "subtitle": "Complete this form and our team will contact you to provide specific guidance according to your needs and interests.",
+      "form": {
+        "name": {
+          "label": "Full name *",
+          "placeholder": "Your full name",
+          "error": "Name is required"
+        },
+        "email": {
+          "label": "Email *",
+          "placeholder": "your.email@example.com",
+          "error": "Email is not valid"
+        },
+        "phone": {
+          "label": "Phone (optional)",
+          "placeholder": "+54 11 1234 5678"
+        },
+        "educationLevel": {
+          "label": "Current education level *",
+          "placeholder": "Select your education level",
+          "error": "Please select your education level",
+          "options": {
+            "secondary": "Secondary",
+            "university": "University",
+            "postgraduate": "Postgraduate",
+            "professional": "Professional",
+            "other": "Other"
+          }
+        },
+        "interestArea": {
+          "label": "Main area of interest *",
+          "placeholder": "Select an area",
+          "error": "Please select an area of interest",
+          "options": {
+            "scholarships": "Academic scholarships",
+            "competitions": "Competitions and olympiads",
+            "programs": "Programs and fellowships",
+            "exchanges": "Exchanges",
+            "volunteering": "Volunteering",
+            "other": "Other"
+          }
+        },
+        "message": {
+          "label": "Your inquiry *",
+          "placeholder": "Describe your situation and what kind of guidance you need...",
+          "error": "Your message must be at least 20 characters long"
+        },
+        "submit": "Send inquiry",
+        "sending": "Sending...",
+        "success": {
+          "title": "Form submitted successfully!",
+          "message": "Thank you for contacting us. Our team will review your inquiry and respond to you shortly."
+        }
+      }
+    }
+  },
+  "common": {
+    "backToHome": "Back to home",
+    "footer": {
+      "rights": "All rights reserved."
+    }
+  }
+}
