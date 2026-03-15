@@ -1,0 +1,529 @@
+{
+  "sources": [
+    {
+      "name": "Becas Newsletter (Substack - Michelle Gonzalez)",
+      "type": "substack",
+      "program_type": "Scholarship / Internship",
+      "enabled": true,
+      "archive_url": "https://becas.substack.com/archive",
+      "selectors": {
+        "post_link": "a[href*='becas.substack.com/p/']",
+        "post_body": ".available-content, .body.markup, div[class*='body'] .markup, article .available-content",
+        "opportunity_title": "h1, h2"
+      }
+    },
+    {
+      "name": "Google Summer of Code",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": false,
+      "url": "https://summerofcode.withgoogle.com/programs/2025/projects",
+      "js_heavy": true,
+      "wait_for_selector": ".grid__row__item, gsoc-project-card, mat-card",
+      "selectors": {
+        "listing": ".grid__row__item, gsoc-project-card",
+        "title": "h3, .title, mat-card-title",
+        "link": "a[href*='summerofcode.withgoogle.com/programs']",
+        "organization": "mat-card-subtitle, .org",
+        "deadline": null,
+        "description": "p, mat-card-content",
+        "next_page": null
+      }
+    },
+    {
+      "name": "MLH Fellowship",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": true,
+      "url": "https://fellowship.mlh.io/",
+      "js_heavy": true,
+      "wait_for_selector": ".fellowship-track, .track-card, section",
+      "selectors": {
+        "listing": ".fellowship-track, .track, section.program",
+        "title": "h2, h3, .track-title",
+        "link": "a[href*='mlh.io'], a.apply-btn",
+        "organization": null,
+        "deadline": ".deadline, .dates, time",
+        "description": "p, .track-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Outreachy",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": true,
+      "url": "https://www.outreachy.org/apply/",
+      "js_heavy": false,
+      "selectors": {
+        "listing": ".community-row, tr.community, .internship-round",
+        "title": "h3 a, h2 a, td a",
+        "link": "h3 a, h2 a, td a",
+        "organization": ".sponsor, .community-name",
+        "deadline": ".deadline, td.deadline, time",
+        "description": ".community-description, p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "LFX Mentorship (Linux Foundation)",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": true,
+      "url": "https://mentorship.lfx.linuxfoundation.org/#projects",
+      "js_heavy": true,
+      "wait_for_selector": ".project-card, app-project-card",
+      "selectors": {
+        "listing": "app-project-card, .project-card, .card",
+        "title": ".project-name, h3, .card-title",
+        "link": "a[href*='mentorship.lfx'], a.project-link",
+        "organization": ".project-org, .organization",
+        "deadline": ".project-deadline, .deadline",
+        "description": ".project-description, p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Google Season of Docs",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": true,
+      "url": "https://developers.google.com/season-of-docs/docs/participants",
+      "js_heavy": false,
+      "selectors": {
+        "listing": "table tr",
+        "title": "td:first-child, td a",
+        "link": "td a",
+        "organization": "td:nth-child(2)",
+        "deadline": null,
+        "description": "td:last-child",
+        "next_page": null
+      }
+    },
+    {
+      "name": "GirlScript Summer of Code",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": false,
+      "url": "https://gssoc.girlscript.tech/project.html",
+      "js_heavy": true,
+      "wait_for_selector": ".project-card, .card",
+      "selectors": {
+        "listing": ".project-card, .card, .project",
+        "title": "h3, h4, .project-name",
+        "link": "a[href*='github'], a.project-link",
+        "organization": ".org, .mentors",
+        "deadline": null,
+        "description": "p, .project-desc",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Open Source Design Jobs",
+      "type": "standard",
+      "program_type": "Open Source Program",
+      "enabled": false,
+      "url": "https://opensourcedesign.net/jobs/",
+      "js_heavy": false,
+      "selectors": {
+        "listing": ".job, article, .listing-item",
+        "title": "h2 a, h3 a, .job-title a",
+        "link": "h2 a, h3 a",
+        "organization": ".company, .org",
+        "deadline": ".deadline, time",
+        "description": "p, .summary",
+        "next_page": "a.next, a[rel='next']"
+      }
+    },
+    {
+      "name": "Red Bull Basement",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": false,
+      "url": "https://www.redbull.com/int-en/basement/",
+      "js_heavy": true,
+      "wait_for_selector": ".rbb-submission, .project, article",
+      "selectors": {
+        "listing": ".rbb-submission, .project-card, article.post",
+        "title": "h2, h3, .project-title",
+        "link": "a[href*='redbull'], a.project-link",
+        "organization": null,
+        "deadline": ".deadline, time, .date",
+        "description": "p, .project-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "NASA Space Apps Challenge",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": false,
+      "url": "https://www.spaceapps.nasa.gov/",
+      "js_heavy": true,
+      "wait_for_selector": ".challenge-card, .card, section",
+      "selectors": {
+        "listing": ".challenge-card, .card, section.challenge",
+        "title": "h2, h3, .challenge-title",
+        "link": "a[href*='spaceapps'], a.challenge-link",
+        "organization": null,
+        "deadline": ".deadline, time, .dates",
+        "description": "p, .challenge-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "XPRIZE - Active Prizes",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://www.xprize.org/prizes",
+      "js_heavy": true,
+      "wait_for_selector": ".prize-card, article, .card",
+      "selectors": {
+        "listing": ".prize-card, article.prize, .card-item",
+        "title": "h2 a, h3 a, .prize-title a",
+        "link": "h2 a, h3 a, a.prize-link",
+        "organization": ".sponsor, .prize-sponsor",
+        "deadline": ".deadline, .prize-deadline, time",
+        "description": "p, .prize-summary",
+        "next_page": "a.next, .pagination .next a"
+      }
+    },
+    {
+      "name": "MIT Solve - Open Challenges",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://solve.mit.edu/challenges",
+      "js_heavy": true,
+      "wait_for_selector": ".challenge-card, .challenge, article",
+      "selectors": {
+        "listing": ".challenge-card, .challenge-item, article",
+        "title": "h2 a, h3 a, .challenge-title",
+        "link": "h2 a, h3 a, a.challenge-link",
+        "organization": ".challenge-partner, .sponsor",
+        "deadline": ".deadline, time, .challenge-deadline",
+        "description": "p, .challenge-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Microsoft Imagine Cup",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://imaginecup.microsoft.com/en-us/Events",
+      "js_heavy": true,
+      "wait_for_selector": ".card, .event-card, article",
+      "selectors": {
+        "listing": ".event-card, .card, article.event",
+        "title": "h2, h3, .card-title",
+        "link": "a[href*='imaginecup'], a.event-link",
+        "organization": null,
+        "deadline": ".deadline, time, .event-date",
+        "description": "p, .card-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Startup Chile - Programs",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://www.startupchile.org/programs/",
+      "js_heavy": true,
+      "wait_for_selector": ".program-card, .card, article",
+      "selectors": {
+        "listing": ".program-card, .card, article.program",
+        "title": "h2, h3, .card-title",
+        "link": "a[href*='startupchile'], a.apply-link",
+        "organization": null,
+        "deadline": ".deadline, time, .date",
+        "description": "p, .program-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "IDB Lab / BID Lab - LatAm Innovation",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://bidlab.org/en/calls",
+      "js_heavy": true,
+      "wait_for_selector": ".call-card, .card, article",
+      "selectors": {
+        "listing": ".call-card, .card, article.call",
+        "title": "h2, h3, .card-title",
+        "link": "a[href*='bidlab'], a.call-link",
+        "organization": null,
+        "deadline": ".deadline, time, .date",
+        "description": "p, .call-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "HeroX - Open Innovation",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://www.herox.com/crowdsourcing-projects",
+      "js_heavy": true,
+      "wait_for_selector": ".challenge-card, .card",
+      "selectors": {
+        "listing": ".challenge-card, .card, .project-card",
+        "title": "h2 a, h3 a, .card-title a",
+        "link": "h2 a, h3 a, a[href*='herox.com']",
+        "organization": ".organization, .sponsor",
+        "deadline": ".deadline, time, .end-date",
+        "description": "p, .card-summary",
+        "next_page": "a[aria-label='Next'], .pagination .next a"
+      }
+    },
+    {
+      "name": "Technovation Girls",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://www.technovation.org/technovation-girls/",
+      "js_heavy": true,
+      "wait_for_selector": "section, .content, article",
+      "selectors": {
+        "listing": ".program-detail, section.round, .round-card",
+        "title": "h2, h3, .round-title",
+        "link": "a[href*='technovation'], a.apply-btn",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Wayra - LatAm Open Innovation",
+      "type": "standard",
+      "program_type": "Innovation Challenge",
+      "enabled": true,
+      "url": "https://wayra.com/en/calls/",
+      "js_heavy": true,
+      "wait_for_selector": ".call-card, .card, article",
+      "selectors": {
+        "listing": ".call-card, .program-card, article",
+        "title": "h2, h3, .card-title",
+        "link": "a[href*='wayra.com']",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p, .card-text",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Google STEP Internship",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://buildyourfuture.withgoogle.com/programs/step",
+      "js_heavy": true,
+      "wait_for_selector": "main, article, section",
+      "selectors": {
+        "listing": ".program-card, article, section.program",
+        "title": "h2, h3, .program-title",
+        "link": "a[href*='google.com/careers'], a.apply-btn",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Microsoft LEAP Apprenticeship",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://leap.microsoft.com/en-US/",
+      "js_heavy": true,
+      "wait_for_selector": "main, .card, section",
+      "selectors": {
+        "listing": ".program-card, .card, article",
+        "title": "h2, h3, .card-title",
+        "link": "a[href*='microsoft.com'], a.apply",
+        "organization": null,
+        "deadline": "time, .deadline",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Meta University Program",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.metacareers.com/careerprograms/pathways/metauniversity",
+      "js_heavy": true,
+      "wait_for_selector": "main, section, .content",
+      "selectors": {
+        "listing": "section, .program-section, article",
+        "title": "h2, h3, .title",
+        "link": "a[href*='metacareers'], a.apply",
+        "organization": null,
+        "deadline": "time, .deadline",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Palantir Path (Diversity)",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.palantir.com/students/path/",
+      "js_heavy": true,
+      "wait_for_selector": "main, section, article",
+      "selectors": {
+        "listing": ".path-track, section.track, article",
+        "title": "h2, h3",
+        "link": "a[href*='palantir.com']",
+        "organization": null,
+        "deadline": "time, .deadline",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "McKinsey Forward Program",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.mckinsey.com/careers/students/programs-and-experiential-learning/forward-program",
+      "js_heavy": true,
+      "wait_for_selector": "main, article, section",
+      "selectors": {
+        "listing": ".card, article, section.program",
+        "title": "h2, h3, .title",
+        "link": "a[href*='mckinsey'], a.apply-link",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "WorldQuant University - Free MScFE",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.wqu.edu/programs/mscfe/",
+      "js_heavy": true,
+      "wait_for_selector": "main, section, .content",
+      "selectors": {
+        "listing": "section, .cohort-card, article",
+        "title": "h2, h3",
+        "link": "a[href*='wqu.edu'], a.apply-btn",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Jane Street Diversity Programs",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.janestreet.com/join-jane-street/programs-and-events/",
+      "js_heavy": true,
+      "wait_for_selector": ".program-card, .card, article",
+      "selectors": {
+        "listing": ".program-card, .card, article.program",
+        "title": "h2, h3, .program-name",
+        "link": "a[href*='janestreet'], a.apply",
+        "organization": null,
+        "deadline": "time, .deadline, .date",
+        "description": "p, .program-description",
+        "next_page": null
+      }
+    },
+    {
+      "name": "Scholars4Dev - Latin America",
+      "type": "standard",
+      "program_type": "Scholarship / Internship",
+      "enabled": true,
+      "url": "https://www.scholars4dev.com/tag/latin-america/",
+      "selectors": {
+        "listing": "article.post, div.post",
+        "title": "h2.entry-title a, h3.entry-title a",
+        "link": "h2.entry-title a, h3.entry-title a",
+        "organization": null,
+        "deadline": ".entry-content strong",
+        "description": ".entry-summary p, .entry-content p",
+        "next_page": "a.next.page-numbers"
+      }
+    },
+    {
+      "name": "Youth Opportunities - Scholarships",
+      "type": "standard",
+      "program_type": "Scholarship / Internship",
+      "enabled": true,
+      "url": "https://youthop.com/scholarships/",
+      "js_heavy": true,
+      "wait_for_selector": "article, .entry, .post",
+      "selectors": {
+        "listing": "article.post, article.type-post, .entry",
+        "title": "h2.entry-title a, h3.entry-title a",
+        "link": "h2.entry-title a, h3.entry-title a",
+        "organization": ".yo-meta .org",
+        "deadline": ".yo-deadline, .deadline",
+        "description": ".entry-summary, .excerpt",
+        "next_page": "a.next.page-numbers"
+      }
+    },
+    {
+      "name": "OAS / OEA Scholarships",
+      "type": "standard",
+      "program_type": "Scholarship / Internship",
+      "enabled": true,
+      "url": "https://www.oas.org/en/scholarships/",
+      "selectors": {
+        "listing": "#rightmaincol ul li, .views-row",
+        "title": "a, h3 a",
+        "link": "a",
+        "organization": null,
+        "deadline": ".date-display-single, td",
+        "description": "p",
+        "next_page": "li.pager-next a"
+      }
+    },
+    {
+      "name": "Fundacion Carolina - Convocatorias",
+      "type": "standard",
+      "program_type": "Scholarship / Internship",
+      "enabled": true,
+      "url": "https://www.fundacioncarolina.es/convocatorias/",
+      "selectors": {
+        "listing": "article.post, .entry, .convocatoria-item",
+        "title": "h2.entry-title a, h3 a",
+        "link": "h2.entry-title a, h3 a",
+        "organization": null,
+        "deadline": "time, .fecha, .entry-content strong",
+        "description": ".entry-summary, p",
+        "next_page": "a.next.page-numbers"
+      }
+    },
+    {
+      "name": "IBM P-TECH (LatAm Schools)",
+      "type": "standard",
+      "program_type": "Emerging Talent",
+      "enabled": true,
+      "url": "https://www.ptech.org/find-a-school/",
+      "js_heavy": true,
+      "wait_for_selector": ".school-card, .card, article",
+      "selectors": {
+        "listing": ".school-card, .card, article",
+        "title": "h3, h2, .school-name",
+        "link": "a[href*='ptech'], a.school-link",
+        "organization": ".sponsor, .partner",
+        "deadline": null,
+        "description": "p",
+        "next_page": "a.next, .pagination .next a"
+      }
+    }
+  ]
+}

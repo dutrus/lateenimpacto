@@ -1,0 +1,16 @@
+{
+  "name": "lateen-automation",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Automatización Groq → Supabase para oportunidades LATAM",
+  "scripts": {
+    "process": "node process_groq.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "groq-sdk": "^0.9.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
