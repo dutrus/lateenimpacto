@@ -1,9 +1,9 @@
 name: Enriquecer oportunidades con Groq
 
 on:
-  # Corre automáticamente cada 12 horas (6 AM y 6 PM UTC)
+  # 3:30 AM UTC — runs 30 min after the scraper (3:00 AM UTC) to process fresh data
   schedule:
-    - cron: "0 6,18 * * *"
+    - cron: "30 3 * * *"
 
   # Permite disparo manual desde la pestaña Actions de GitHub
   workflow_dispatch:
