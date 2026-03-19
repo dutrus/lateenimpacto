@@ -1,6 +1,6 @@
 # Lateen Impacto 🌎
 
-Automated opportunity aggregation engine that scrapes, filters, and distributes academic and professional opportunities across Latin America — scholarships, fellowships, competitions, grants, and more.
+Automated opportunity aggregation engine that scrapes, filters, and distributes academic and professional opportunities across Latin America: scholarships, fellowships, competitions, grants, and more.
 
 ## The problem
 
