@@ -73,34 +73,52 @@ CREATE TABLE IF NOT EXISTS opportunities (
     deadline     DATE,
     description  TEXT,
     category     TEXT,
+    program_type TEXT,
+    fuente       TEXT,
+    activo       BOOLEAN DEFAULT TRUE,
+    aplica_latam BOOLEAN DEFAULT FALSE,
     created_at   TIMESTAMPTZ DEFAULT NOW()
 );
 """
+
+# Idempotent migrations — add columns that may be missing in existing tables
+_MIGRATIONS = [
+    "ALTER TABLE opportunities ADD COLUMN IF NOT EXISTS program_type TEXT",
+    "ALTER TABLE opportunities ADD COLUMN IF NOT EXISTS fuente TEXT",
+    "ALTER TABLE opportunities ADD COLUMN IF NOT EXISTS activo BOOLEAN DEFAULT TRUE",
+    "ALTER TABLE opportunities ADD COLUMN IF NOT EXISTS aplica_latam BOOLEAN DEFAULT FALSE",
+]
 
 def get_connection():
     """Return a new psycopg2 connection using DATABASE_URL from .env."""
     return psycopg2.connect(DATABASE_URL)
 
 def init_db():
-    """Create the opportunities table if it does not already exist."""
+    """Create the opportunities table and apply any missing column migrations."""
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(CREATE_TABLE_SQL)
+                for migration in _MIGRATIONS:
+                    cur.execute(migration)
         print("OK - Table 'opportunities' is ready.")
     finally:
         conn.close()
 
-def insert_opportunity(title, organization, link, deadline, description, category, program_type=None):
+def insert_opportunity(
+    title, organization, link, deadline, description, category,
+    program_type=None, fuente=None, activo=True, aplica_latam=False,
+):
     """
-    Insert one opportunity. Skips silently if:
-      - the link already exists (dedup), or
-      - the title is identified as web-navigation junk.
-    Returns the new row id, or None if skipped.
+    Upsert one opportunity keyed on URL (link).
+    - If the link is new → INSERT with activo and aplica_latam as given.
+    - If the link already exists → UPDATE scraped fields; preserve activo
+      (may be manually curated in Supabase).
+    Returns the row id (insert or update), or None if skipped.
+    Caller is responsible for the junk-title guard — this is a safety net only.
     """
     if is_junk_title(title):
-        print(f"  [SKIP junk title] {repr(title)}")
         return None
     conn = get_connection()
     try:
@@ -109,12 +127,22 @@ def insert_opportunity(title, organization, link, deadline, description, categor
                 cur.execute(
                     """
                     INSERT INTO opportunities
-                        (title, organization, link, deadline, description, category, program_type)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (link) DO NOTHING
+                        (title, organization, link, deadline, description,
+                         category, program_type, fuente, activo, aplica_latam)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (link) DO UPDATE SET
+                        title        = EXCLUDED.title,
+                        organization = EXCLUDED.organization,
+                        deadline     = EXCLUDED.deadline,
+                        description  = EXCLUDED.description,
+                        category     = EXCLUDED.category,
+                        program_type = EXCLUDED.program_type,
+                        fuente       = EXCLUDED.fuente,
+                        aplica_latam = EXCLUDED.aplica_latam
                     RETURNING id
                     """,
-                    (title, organization, link, deadline, description, category, program_type),
+                    (title, organization, link, deadline, description,
+                     category, program_type, fuente, activo, aplica_latam),
                 )
                 row = cur.fetchone()
                 return row[0] if row else None

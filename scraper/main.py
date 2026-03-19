@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 from playwright.async_api import async_playwright
 
-from database import insert_opportunity, get_connection
+from database import insert_opportunity, get_connection, is_junk_title
 
 # Force UTF-8 output on Windows (handles emojis in Substack titles)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -60,6 +60,11 @@ def detect_category(text: str) -> str:
         if any(kw in text_lower for kw in keywords):
             return category
     return "General"
+
+def is_latam_relevant(text: str) -> bool:
+    """Return True if text mentions any LatAm country/region keyword."""
+    text_lower = text.lower()
+    return any(country.lower() in text_lower for country in LATAM_COUNTRIES)
 
 
 # ---------------------------------------------------------------------------
@@ -505,23 +510,41 @@ async def main():
                 else:
                     results = await scrape_standard(page, source)
 
-                saved = skipped = 0
+                saved = skipped = junk_skipped = 0
                 for opp in results:
-                    if opp.get("link"):
-                        row_id = insert_opportunity(
-                            title=opp.get("title"),
-                            organization=opp.get("organization"),
-                            link=opp.get("link"),
-                            deadline=opp.get("deadline"),
-                            description=opp.get("description"),
-                            category=opp.get("category"),
-                            program_type=opp.get("program_type"),
-                        )
-                        if row_id:
-                            saved += 1
-                            print(f"  [SAVED id={row_id}] {(opp.get('title') or '')[:60]}")
-                        else:
-                            skipped += 1
+                    if not opp.get("link"):
+                        continue
+
+                    title = opp.get("title") or ""
+
+                    # Rule 1: Junk title guard — no DB attempt whatsoever
+                    if is_junk_title(title):
+                        junk_skipped += 1
+                        continue
+
+                    # Rule 3: LatAm relevance determines aplica_latam flag
+                    full_text = f"{title} {opp.get('organization') or ''} {opp.get('description') or ''}"
+                    aplica_latam = is_latam_relevant(full_text)
+
+                    # Rules 2 & 4: URL-keyed upsert with fuente traceability
+                    row_id = insert_opportunity(
+                        title=title,
+                        organization=opp.get("organization"),
+                        link=opp.get("link"),
+                        deadline=opp.get("deadline"),
+                        description=opp.get("description"),
+                        category=opp.get("category"),
+                        program_type=opp.get("program_type"),
+                        fuente=source["name"],
+                        activo=True,
+                        aplica_latam=aplica_latam,
+                    )
+                    if row_id:
+                        saved += 1
+                        latam_tag = " [LATAM]" if aplica_latam else ""
+                        print(f"  [SAVED id={row_id}]{latam_tag} {title[:60]}")
+                    else:
+                        skipped += 1
 
                 # DB total count after this source
                 try:
@@ -532,7 +555,7 @@ async def main():
                     _conn.close()
                 except Exception:
                     db_total = "?"
-                print(f"  [{source['name'][:40]}] -> ENCONTRADOS: {len(results)} | TOTAL DB: {db_total}")
+                print(f"  [{source['name'][:40]}] -> ENCONTRADOS: {len(results)} | GUARDADOS: {saved} | JUNK: {junk_skipped} | TOTAL DB: {db_total}")
                 all_results.extend(results)
 
             except Exception as e:
