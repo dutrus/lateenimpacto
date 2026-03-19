@@ -229,30 +229,29 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
   const opps = modalData;
 
   // ── Modal ─────────────────────────────────────────────────────────────
-  const modalOverlay = document.getElementById('modal')!;
-  const modalContent = document.getElementById('modal-content')!;
+  const modalOverlay = document.getElementById('modal');
+  const modalContent = document.getElementById('modal-content');
 
-  function formatDate(d: string | null) {
+  function formatDate(d) {
     if (!d) return null;
     return new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  function openModal(i: number) {
+  function openModal(i) {
     const o = opps[i];
-    const paragraphs = (o.resumen ?? o.description ?? '')
+    const tipoClass = o.program_type === 'Scholarship / Internship' ? 'tipo-beca'
+      : o.program_type === 'Innovation Challenge' ? 'tipo-concurso'
+      : o.program_type === 'Emerging Talent' ? 'tipo-residencia'
+      : 'tipo-intercambio';
+    const paragraphs = (o.resumen || o.description || '')
       .split('\n\n')
       .filter(Boolean)
-      .map((p: string) => `<p class="modal-resumen">${p}</p>`)
+      .map(p => `<p class="modal-resumen">${p}</p>`)
       .join('');
 
     modalContent.innerHTML = `
-      <span class="modal-tipo ${o.program_type === 'Scholarship / Internship' ? 'tipo-beca'
-        : o.program_type === 'Innovation Challenge' ? 'tipo-concurso'
-        : o.program_type === 'Emerging Talent' ? 'tipo-residencia'
-        : 'tipo-intercambio'}">
-        ${o.program_type ?? 'Oportunidad'}
-      </span>
-      <h2 class="modal-titulo">${o.title ?? ''}</h2>
+      <span class="modal-tipo ${tipoClass}">${o.program_type || 'Oportunidad'}</span>
+      <h2 class="modal-titulo">${o.title || ''}</h2>
       ${o.pais_destino ? `<p class="modal-pais">📍 ${o.pais_destino}</p>` : ''}
       ${o.aplica_latam ? `<p class="modal-pais" style="color:#0f7b4c;font-weight:500">🌎 Aplica para Latinoamérica</p>` : ''}
       <div class="modal-divider"></div>
@@ -260,14 +259,13 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
       <div class="modal-info-grid">
         <div class="modal-info-item">
           <div class="modal-info-label">Fecha de cierre</div>
-          <div class="modal-info-value">${formatDate(o.deadline) ?? 'No especificada'}</div>
+          <div class="modal-info-value">${formatDate(o.deadline) || 'No especificada'}</div>
         </div>
         <div class="modal-info-item">
           <div class="modal-info-label">Organización</div>
-          <div class="modal-info-value">${o.organization ?? '—'}</div>
+          <div class="modal-info-value">${o.organization || '—'}</div>
         </div>
-        ${o.fuente ? `
-        <div class="modal-info-item">
+        ${o.fuente ? `<div class="modal-info-item">
           <div class="modal-info-label">Fuente</div>
           <div class="modal-info-value" style="font-size:0.85rem">${o.fuente}</div>
         </div>` : ''}
@@ -283,11 +281,11 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
     document.body.style.overflow = '';
   }
 
-  document.getElementById('modal-close')!.addEventListener('click', closeModal);
+  document.getElementById('modal-close').addEventListener('click', closeModal);
   modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  document.querySelectorAll<HTMLElement>('.beca-card').forEach(card => {
+  document.querySelectorAll('.beca-card').forEach(card => {
     card.addEventListener('click', () => openModal(Number(card.dataset.idx)));
   });
 
@@ -296,32 +294,32 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
   let searchQuery  = '';
 
   function applyFilters() {
-    const cards = document.querySelectorAll<HTMLElement>('.beca-card');
+    const cards = document.querySelectorAll('.beca-card');
     let visible = 0;
     cards.forEach(card => {
       const matchFilter = activeFilter === 'todos' || card.dataset.pais === activeFilter;
       const matchSearch = !searchQuery
-        || (card.dataset.pais ?? '').includes(searchQuery)
-        || (card.dataset.titulo ?? '').includes(searchQuery);
+        || (card.dataset.pais || '').includes(searchQuery)
+        || (card.dataset.titulo || '').includes(searchQuery);
       const show = matchFilter && matchSearch;
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
-    document.getElementById('count')!.textContent = `Mostrando ${visible}`;
-    document.getElementById('empty-state')!.style.display = visible === 0 ? 'block' : 'none';
+    document.getElementById('count').textContent = `Mostrando ${visible}`;
+    document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
   }
 
-  document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(btn => {
+  document.querySelectorAll('.filtro-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      activeFilter = btn.dataset.filter ?? 'todos';
+      activeFilter = btn.dataset.filter || 'todos';
       applyFilters();
     });
   });
 
-  document.getElementById('search-input')!.addEventListener('input', e => {
-    searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+  document.getElementById('search-input').addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase();
     applyFilters();
   });
 </script>
