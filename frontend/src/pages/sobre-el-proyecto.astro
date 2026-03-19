@@ -1,0 +1,228 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sobre el proyecto — Lateen Impacto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">Lateen <span>Impacto</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Becas</a></li>
+    <li><a href="/sobre-el-proyecto" style="color:var(--verde);font-weight:600">Sobre el proyecto</a></li>
+    <li><a href="https://becas.substack.com" target="_blank" rel="noopener" class="btn-substack">Newsletter →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="sobre-hero">
+  <span class="hero-tag">✦ El proyecto</span>
+  <h1>Cerrando la brecha<br>de <em>oportunidades</em></h1>
+  <p class="sobre-lead">
+    Lateen Impacto nace para cerrar la brecha de oportunidades. Usamos inteligencia artificial para scrapear, resumir y curar las mejores becas y pasantías del mundo, enfocándonos en lo que realmente importa para el talento latinoamericano.
+  </p>
+</section>
+
+<!-- PARA QUIÉN -->
+<section class="sobre-section">
+  <div class="sobre-grid">
+    <div class="sobre-text">
+      <h2 class="sobre-h2">¿Para quién es esto?</h2>
+      <p>Para estudiantes universitarios, investigadores, artistas y emprendedores de América Latina que saben que el talento no tiene fronteras, pero sí necesita información. Si alguna vez perdiste una beca porque nadie te avisó a tiempo, o porque estaba en otro idioma, esto es para vos.</p>
+      <ul class="sobre-list">
+        <li>🎓 Estudiantes buscando becas de posgrado en el exterior</li>
+        <li>🔬 Investigadores que quieren publicar o hacer residencias internacionales</li>
+        <li>💡 Emprendedores con proyectos de impacto buscando financiamiento</li>
+        <li>🎨 Artistas y creativos que quieren proyección global</li>
+        <li>💻 Desarrolladores buscando programas de talento emergente</li>
+      </ul>
+    </div>
+    <div class="sobre-aside">
+      <div class="sobre-card">
+        <div class="sobre-card-icon">🌎</div>
+        <h3>Enfoque LATAM</h3>
+        <p>Filtramos activamente oportunidades relevantes para perfiles latinoamericanos y lo indicamos en cada tarjeta.</p>
+      </div>
+      <div class="sobre-card">
+        <div class="sobre-card-icon">🤖</div>
+        <h3>Resumido con IA</h3>
+        <p>Cada oportunidad es procesada por un modelo de lenguaje que genera un resumen motivador en español.</p>
+      </div>
+      <div class="sobre-card">
+        <div class="sobre-card-icon">⚡</div>
+        <h3>Actualizado a diario</h3>
+        <p>El scraper corre todas las noches y la base de datos se actualiza automáticamente sin intervención manual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="pipeline-section">
+  <h2 class="sobre-h2" style="text-align:center;margin-bottom:3rem">Cómo funciona el pipeline</h2>
+  <div class="pipeline-steps">
+
+    <div class="pipeline-step">
+      <div class="step-num">01</div>
+      <div class="step-icon">🕷️</div>
+      <h3>Scraper</h3>
+      <p>Un scraper en Python con Playwright recorre más de 25 fuentes cada noche: newsletters de Substack, plataformas de becas, programas de talento emergente y desafíos de innovación. Detecta y descarta automáticamente títulos basura de navegación web.</p>
+      <div class="step-tech">Python · Playwright · PostgreSQL</div>
+    </div>
+
+    <div class="pipeline-arrow">→</div>
+
+    <div class="pipeline-step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🗄️</div>
+      <h3>Supabase</h3>
+      <p>Cada oportunidad se guarda en Supabase con upsert basado en URL, garantizando cero duplicados. Los campos <code>activo</code> y <code>aplica_latam</code> permiten curación manual sin tocar código. Row Level Security protege los datos.</p>
+      <div class="step-tech">Supabase · PostgreSQL · RLS</div>
+    </div>
+
+    <div class="pipeline-arrow">→</div>
+
+    <div class="pipeline-step">
+      <div class="step-num">03</div>
+      <div class="step-icon">🤖</div>
+      <h3>Groq + Llama</h3>
+      <p>30 minutos después del scraper, un script Node.js consulta todas las filas sin resumen y las envía a Groq (modelo Llama 3.3 70B). El resultado: un resumen motivador en español, el país de destino y la fecha de cierre validada.</p>
+      <div class="step-tech">Groq · Llama 3.3 · Node.js</div>
+    </div>
+
+    <div class="pipeline-arrow">→</div>
+
+    <div class="pipeline-step">
+      <div class="step-num">04</div>
+      <div class="step-icon">🌐</div>
+      <h3>Frontend</h3>
+      <p>Astro genera el sitio estático con los datos frescos. El build se puede disparar manualmente o conectar a un webhook de Supabase. Tailwind 4 garantiza que la UI sea rápida y limpia en cualquier dispositivo.</p>
+      <div class="step-tech">Astro · Tailwind · GitHub Actions</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="substack-banner">
+  <h2>Recibí las mejores<br><em>oportunidades</em> cada semana</h2>
+  <p>Sin algoritmos. Solo becas reales, resumidas en español.</p>
+  <div class="substack-input-row">
+    <a href="https://becas.substack.com" target="_blank" rel="noopener" class="btn-aplicar" style="display:inline-block;width:auto;padding:0.8rem 2rem;">
+      Suscribirme en Substack →
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --verde:       #0f7b4c;
+    --verde-claro: #1aad6a;
+    --crema:       #f7f3ec;
+    --tierra:      #c9622a;
+    --noche:       #0d1117;
+    --texto:       #1a1a2e;
+    --gris:        #6b7280;
+    --borde:       #e5e0d8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--crema); color: var(--texto); min-height: 100vh; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem; background: var(--crema); border-bottom: 1px solid var(--borde);
+  }
+  .logo { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--verde); letter-spacing: -0.5px; text-decoration: none; }
+  .logo span { color: var(--tierra); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--gris); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--verde); }
+  .btn-substack { background: var(--verde) !important; color: white !important; padding: 0.5rem 1.2rem; border-radius: 100px; font-size: 0.85rem !important; }
+
+  /* HERO */
+  .sobre-hero {
+    max-width: 800px; margin: 0 auto; padding: 9rem 3rem 4rem; text-align: center;
+  }
+  .hero-tag {
+    display: inline-block; background: #e8f5ee; color: var(--verde);
+    font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.8rem;
+    border-radius: 100px; margin-bottom: 1.2rem; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .sobre-hero h1 {
+    font-family: 'Fraunces', serif; font-size: 3.2rem; font-weight: 300;
+    line-height: 1.1; letter-spacing: -1px; margin-bottom: 1.5rem;
+  }
+  .sobre-hero h1 em { font-style: italic; color: var(--verde); }
+  .sobre-lead {
+    font-size: 1.15rem; line-height: 1.75; color: var(--gris); max-width: 640px; margin: 0 auto;
+  }
+
+  /* PARA QUIÉN */
+  .sobre-section { max-width: 1200px; margin: 0 auto; padding: 4rem 3rem; }
+  .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .sobre-h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 400; margin-bottom: 1.2rem; }
+  .sobre-text p { color: var(--gris); line-height: 1.75; margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .sobre-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .sobre-list li { font-size: 0.9rem; color: var(--texto); line-height: 1.5; }
+  .sobre-aside { display: flex; flex-direction: column; gap: 1.2rem; }
+  .sobre-card {
+    background: white; border: 1px solid var(--borde); border-radius: 16px; padding: 1.5rem;
+  }
+  .sobre-card-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .sobre-card h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .sobre-card p { font-size: 0.85rem; color: var(--gris); line-height: 1.6; }
+
+  /* PIPELINE */
+  .pipeline-section { background: white; border-top: 1px solid var(--borde); border-bottom: 1px solid var(--borde); padding: 5rem 3rem; }
+  .pipeline-steps {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: flex-start; gap: 0; flex-wrap: wrap; justify-content: center;
+  }
+  .pipeline-step {
+    flex: 1; min-width: 200px; max-width: 240px; padding: 0 1.5rem; text-align: center;
+  }
+  .step-num { font-family: 'Fraunces', serif; font-size: 0.75rem; color: var(--verde); font-weight: 700; letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .step-icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+  .pipeline-step h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .pipeline-step p { font-size: 0.82rem; color: var(--gris); line-height: 1.65; margin-bottom: 0.8rem; }
+  .pipeline-step code { background: #f0f0f0; padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.8rem; }
+  .step-tech { font-size: 0.72rem; font-weight: 500; color: var(--verde); letter-spacing: 0.3px; }
+  .pipeline-arrow { font-size: 1.5rem; color: var(--borde); align-self: center; padding: 0 0.5rem; margin-top: -1rem; }
+
+  /* SUBSTACK BANNER */
+  .substack-banner { background: var(--noche); color: white; padding: 4rem 3rem; text-align: center; }
+  .substack-banner h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 0.8rem; }
+  .substack-banner h2 em { font-style: italic; color: var(--verde-claro); }
+  .substack-banner p { color: #9ca3af; margin-bottom: 1.8rem; font-size: 0.95rem; }
+  .substack-input-row { display: flex; justify-content: center; }
+  .btn-aplicar {
+    background: var(--verde); color: white; text-align: center; padding: 1rem;
+    border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 0.95rem;
+    transition: background 0.2s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-aplicar:hover { background: #0a6640; }
+
+  @media (max-width: 900px) {
+    .sobre-grid { grid-template-columns: 1fr; }
+    .pipeline-steps { flex-direction: column; align-items: center; }
+    .pipeline-arrow { transform: rotate(90deg); }
+    nav { padding: 1rem 1.5rem; }
+    .sobre-hero { padding: 7rem 1.5rem 3rem; }
+    .sobre-hero h1 { font-size: 2.2rem; }
+    .sobre-section { padding: 3rem 1.5rem; }
+    .pipeline-section { padding: 3rem 1.5rem; }
+  }
+</style>

@@ -4,8 +4,17 @@ import '../styles/global.css';
 
 const opportunities = await getOpportunities();
 
-const programTypes = [...new Set(opportunities.map(o => o.program_type).filter(Boolean))].sort();
 const countriesCount = new Set(opportunities.map(o => o.pais_destino).filter(Boolean)).size;
+
+// Top 8 countries by frequency for filter bar
+const _countryCounts: Record<string, number> = {};
+for (const o of opportunities) {
+  if (o.pais_destino) _countryCounts[o.pais_destino] = (_countryCounts[o.pais_destino] ?? 0) + 1;
+}
+const topCountries = Object.entries(_countryCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8)
+  .map(([c]) => c);
 
 const TYPE_LABEL: Record<string, string> = {
   'Scholarship / Internship': 'Beca',
@@ -55,11 +64,10 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Lateen <span>Impacto</span></div>
+  <a href="/" class="logo">Lateen <span>Impacto</span></a>
   <ul class="nav-links">
-    <li><a href="#">Becas</a></li>
-    <li><a href="#">Países</a></li>
-    <li><a href="#">Sobre el proyecto</a></li>
+    <li><a href="#becas">Becas</a></li>
+    <li><a href="#sobre">Sobre el proyecto</a></li>
     <li><a href="https://becas.substack.com" target="_blank" rel="noopener" class="btn-substack">Newsletter →</a></li>
   </ul>
 </nav>
@@ -75,7 +83,11 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
         <span class="stat-num">{opportunities.length}</span>
         <span class="stat-label">Oportunidades activas</span>
       </div>
-      <div>
+      <div
+        style="cursor:pointer"
+        onclick="document.getElementById('search-input').focus();document.getElementById('filtros').scrollIntoView({behavior:'smooth'})"
+        title="Clic para filtrar por país"
+      >
         <span class="stat-num">{countriesCount || '+'}</span>
         <span class="stat-label">Países cubiertos</span>
       </div>
@@ -97,12 +109,12 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
 </section>
 
 <!-- FILTROS -->
-<section class="filtros-section">
+<section class="filtros-section" id="filtros">
   <div class="filtros-row">
-    <span class="filtro-label">Filtrar:</span>
+    <span class="filtro-label">País:</span>
     <button class="filtro-btn active" data-filter="todos">Todos</button>
-    {programTypes.map(pt => (
-      <button class="filtro-btn" data-filter={pt}>{tipoLabel(pt)}</button>
+    {topCountries.map(country => (
+      <button class="filtro-btn" data-filter={country.toLowerCase()}>{country}</button>
     ))}
     <div class="search-bar">
       <span class="search-icon">🔍</span>
@@ -112,7 +124,7 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
 </section>
 
 <!-- GRID -->
-<section class="becas-section">
+<section class="becas-section" id="becas">
   <div class="section-header">
     <h2 class="section-title">Oportunidades abiertas</h2>
     <span class="section-count" id="count">Mostrando {opportunities.length}</span>
@@ -160,6 +172,40 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
   </div>
 </section>
 
+<!-- SOBRE EL PROYECTO -->
+<section class="sobre-section" id="sobre">
+  <div class="sobre-inner">
+    <span class="hero-tag">✦ El proyecto</span>
+    <h2 class="sobre-h2">¿Qué es Lateen Impacto?</h2>
+    <p class="sobre-body">
+      Lateen Impacto nace para cerrar la brecha de oportunidades. Usamos inteligencia artificial para scrapear, resumir y curar las mejores becas y pasantías del mundo, enfocándonos en lo que realmente importa para el talento latinoamericano.
+    </p>
+    <div class="sobre-pills">
+      <div class="sobre-pill">
+        <span class="pill-icon">🕷️</span>
+        <div>
+          <strong>Scraper automático</strong>
+          <span>Playwright recorre +25 fuentes cada noche</span>
+        </div>
+      </div>
+      <div class="sobre-pill">
+        <span class="pill-icon">🤖</span>
+        <div>
+          <strong>IA con Groq + Llama</strong>
+          <span>Resúmenes motivadores en español</span>
+        </div>
+      </div>
+      <div class="sobre-pill">
+        <span class="pill-icon">🗄️</span>
+        <div>
+          <strong>Supabase sin duplicados</strong>
+          <span>Upsert por URL, filtrado por país</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SUBSTACK BANNER -->
 <div class="substack-banner">
   <h2>No te pierdas ninguna<br><em>oportunidad</em></h2>
@@ -179,12 +225,8 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
   </div>
 </div>
 
-<!-- Data bridge for client JS -->
-<script type="application/json" id="opp-data" set:html={JSON.stringify(opportunities)} />
-
-<script>
-  // ── Data ──────────────────────────────────────────────────────────────
-  const opps = JSON.parse(document.getElementById('opp-data')!.textContent!);
+<script define:vars={{ modalData: opportunities }}>
+  const opps = modalData;
 
   // ── Modal ─────────────────────────────────────────────────────────────
   const modalOverlay = document.getElementById('modal')!;
@@ -257,7 +299,7 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
     const cards = document.querySelectorAll<HTMLElement>('.beca-card');
     let visible = 0;
     cards.forEach(card => {
-      const matchFilter = activeFilter === 'todos' || card.dataset.tipo === activeFilter;
+      const matchFilter = activeFilter === 'todos' || card.dataset.pais === activeFilter;
       const matchSearch = !searchQuery
         || (card.dataset.pais ?? '').includes(searchQuery)
         || (card.dataset.titulo ?? '').includes(searchQuery);
@@ -498,6 +540,24 @@ const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
   .substack-banner h2 em { font-style: italic; color: var(--verde-claro); }
   .substack-banner p { color: #9ca3af; margin-bottom: 1.8rem; font-size: 0.95rem; }
   .substack-input-row { display: flex; justify-content: center; }
+
+  /* SOBRE EL PROYECTO */
+  .sobre-section {
+    background: white; border-top: 1px solid var(--borde); border-bottom: 1px solid var(--borde);
+    padding: 5rem 3rem;
+  }
+  .sobre-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+  .sobre-h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 400; margin-bottom: 1.2rem; }
+  .sobre-body { font-size: 1.05rem; color: var(--gris); line-height: 1.75; margin-bottom: 2.5rem; }
+  .sobre-pills { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .sobre-pill {
+    display: flex; align-items: center; gap: 0.9rem; text-align: left;
+    background: var(--crema); border: 1px solid var(--borde); border-radius: 14px;
+    padding: 1rem 1.3rem; min-width: 200px;
+  }
+  .pill-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .sobre-pill strong { display: block; font-size: 0.85rem; font-weight: 600; color: var(--texto); margin-bottom: 0.2rem; }
+  .sobre-pill span { font-size: 0.78rem; color: var(--gris); }
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
