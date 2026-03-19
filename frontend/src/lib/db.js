@@ -1,27 +1,21 @@
-import pg from 'pg';
+import { createClient } from '@supabase/supabase-js';
 
-const { Pool } = pg;
-
-const pool = new Pool({
-  connectionString: import.meta.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  max: 1,
-});
+const supabase = createClient(
+  import.meta.env.SUPABASE_URL,
+  import.meta.env.SUPABASE_ANON_KEY
+);
 
 export async function getOpportunities() {
-  const client = await pool.connect();
-  try {
-    const { rows } = await client.query(`
-      SELECT
-        id, title, organization, link, category, program_type,
-        resumen, aplica_latam, fuente, pais_destino,
-        COALESCE(fecha_cierre, deadline) AS deadline
-      FROM opportunities
-      WHERE activo = true
-      ORDER BY created_at DESC
-    `);
-    return rows;
-  } finally {
-    client.release();
-  }
+  const { data, error } = await supabase
+    .from('opportunities')
+    .select('id, title, organization, link, category, program_type, resumen, aplica_latam, fuente, pais_destino, fecha_cierre, deadline, created_at')
+    .eq('activo', true)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return data.map(row => ({
+    ...row,
+    deadline: row.fecha_cierre ?? row.deadline,
+  }));
 }
