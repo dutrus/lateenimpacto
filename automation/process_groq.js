@@ -140,6 +140,29 @@ function sleep(ms) {
 }
 
 /**
+ * Calls fn() up to maxAttempts times, retrying only on connection errors.
+ * Auth/validation errors are rethrown immediately.
+ */
+async function withRetry(fn, maxAttempts = 3, baseDelayMs = 2000) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      const isConnectionErr =
+        err.constructor?.name === "APIConnectionError" ||
+        err.message?.toLowerCase().includes("connection") ||
+        err.message?.toLowerCase().includes("fetch failed") ||
+        err.code === "ECONNRESET";
+
+      if (!isConnectionErr || attempt === maxAttempts) throw err;
+      const delay = baseDelayMs * attempt;
+      console.warn(`    [RETRY ${attempt}/${maxAttempts}] ${err.message} — retrying in ${delay}ms`);
+      await sleep(delay);
+    }
+  }
+}
+
+/**
  * Extrae JSON del texto de respuesta de Groq.
  * Tolera que el modelo envuelva el JSON en backticks o texto extra.
  */
@@ -196,15 +219,17 @@ async function processRow(row) {
     .filter(Boolean)
     .join("\n");
 
-  const completion = await groq.chat.completions.create({
-    model: MODEL,
-    temperature: 0.4,
-    max_tokens: 800,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user",   content: userContent },
-    ],
-  });
+  const completion = await withRetry(() =>
+    groq.chat.completions.create({
+      model: MODEL,
+      temperature: 0.4,
+      max_tokens: 800,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user",   content: userContent },
+      ],
+    })
+  );
 
   const raw = completion.choices[0]?.message?.content ?? "";
   const parsed = extractJSON(raw);
