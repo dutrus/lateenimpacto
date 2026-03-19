@@ -4,197 +4,516 @@ import '../styles/global.css';
 
 const opportunities = await getOpportunities();
 
-const categoryColors: Record<string, string> = {
-  fellowship:   'bg-violet-100 text-violet-700',
-  grant:        'bg-emerald-100 text-emerald-700',
-  award:        'bg-amber-100 text-amber-700',
-  competition:  'bg-rose-100 text-rose-700',
-  scholarship:  'bg-sky-100 text-sky-700',
-  program:      'bg-indigo-100 text-indigo-700',
+const programTypes = [...new Set(opportunities.map(o => o.program_type).filter(Boolean))].sort();
+const countriesCount = new Set(opportunities.map(o => o.pais_destino).filter(Boolean)).size;
+
+const TYPE_LABEL: Record<string, string> = {
+  'Scholarship / Internship': 'Beca',
+  'Open Source Program':      'Open Source',
+  'Innovation Challenge':     'Desafío',
+  'Emerging Talent':          'Talento',
 };
 
-function badgeClass(category: string | null) {
-  if (!category) return 'bg-gray-100 text-gray-500';
-  const key = category.toLowerCase();
-  return categoryColors[key] ?? 'bg-gray-100 text-gray-500';
-}
+const TYPE_CLASS: Record<string, string> = {
+  'Scholarship / Internship': 'tipo-beca',
+  'Open Source Program':      'tipo-intercambio',
+  'Innovation Challenge':     'tipo-concurso',
+  'Emerging Talent':          'tipo-residencia',
+};
 
+function tipoLabel(pt: string | null) {
+  return pt ? (TYPE_LABEL[pt] ?? pt) : 'Oportunidad';
+}
+function tipoClass(pt: string | null) {
+  return pt ? (TYPE_CLASS[pt] ?? 'tipo-beca') : 'tipo-beca';
+}
 function formatDeadline(d: string | null) {
   if (!d) return null;
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
 }
-
-function isExpiringSoon(d: string | null) {
+function isUrgent(d: string | null) {
   if (!d) return false;
   const diff = new Date(d).getTime() - Date.now();
   return diff > 0 && diff < 14 * 24 * 60 * 60 * 1000;
 }
+
+// Hero floating cards: first 3 with a pais_destino
+const heroCards = opportunities.filter(o => o.pais_destino).slice(0, 3);
 ---
 
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="generator" content={Astro.generator} />
-  <title>Lateen Impacto — Oportunidades</title>
+  <title>Lateen Impacto — Becas para Latinoamérica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
 
-  <!-- Header -->
-  <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Lateen <span>Impacto</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Becas</a></li>
+    <li><a href="#">Países</a></li>
+    <li><a href="#">Sobre el proyecto</a></li>
+    <li><a href="https://becas.substack.com" target="_blank" rel="noopener" class="btn-substack">Newsletter →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <span class="hero-tag">✦ Actualizado automáticamente</span>
+    <h1>Oportunidades reales<br>para <em>América Latina</em></h1>
+    <p>Becas, intercambios y desafíos filtrados y resumidos al español. Sin ruido, sin barreras de idioma.</p>
+    <div class="hero-stats">
       <div>
-        <h1 class="text-xl font-bold tracking-tight">Lateen Impacto</h1>
-        <p class="text-xs text-gray-500 mt-0.5">Oportunidades de impacto social</p>
+        <span class="stat-num">{opportunities.length}</span>
+        <span class="stat-label">Oportunidades activas</span>
       </div>
-      <span class="text-sm text-gray-400">{opportunities.length} oportunidades</span>
-    </div>
-  </header>
-
-  <!-- Filter bar -->
-  <div class="max-w-7xl mx-auto px-6 py-5">
-    <div class="flex flex-wrap gap-2 mb-8" id="filter-bar">
-      <button data-filter="all"
-        class="filter-btn active px-3 py-1.5 rounded-full text-sm font-medium bg-gray-900 text-white transition">
-        Todas
-      </button>
-      {[...new Set(opportunities.map(o => o.category).filter(Boolean))].sort().map(cat => (
-        <button data-filter={cat}
-          class={`filter-btn px-3 py-1.5 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 transition ${badgeClass(cat)}`}>
-          {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
-        </button>
-      ))}
-    </div>
-
-    <!-- Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="opp-grid">
-      {opportunities.map(opp => (
-        <article
-          data-category={opp.category ?? ''}
-          class="opp-card bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col overflow-hidden"
-        >
-          <!-- Card header accent -->
-          <div class={`h-1 w-full ${
-            opp.category === 'fellowship'  ? 'bg-violet-400' :
-            opp.category === 'grant'       ? 'bg-emerald-400' :
-            opp.category === 'award'       ? 'bg-amber-400' :
-            opp.category === 'competition' ? 'bg-rose-400' :
-            opp.category === 'scholarship' ? 'bg-sky-400' :
-            opp.category === 'program'     ? 'bg-indigo-400' :
-            'bg-gray-300'
-          }`} />
-
-          <div class="p-5 flex flex-col gap-3 flex-1">
-            <!-- Category + deadline -->
-            <div class="flex items-center justify-between gap-2 flex-wrap">
-              {opp.category && (
-                <span class={`text-xs font-semibold px-2 py-0.5 rounded-full ${badgeClass(opp.category)}`}>
-                  {opp.category.charAt(0).toUpperCase() + opp.category.slice(1)}
-                </span>
-              )}
-              {opp.deadline && (
-                <span class={`text-xs font-medium flex items-center gap-1 ${isExpiringSoon(opp.deadline) ? 'text-rose-600' : 'text-gray-400'}`}>
-                  {isExpiringSoon(opp.deadline) && <span class="inline-block w-1.5 h-1.5 rounded-full bg-rose-500" />}
-                  {formatDeadline(opp.deadline)}
-                </span>
-              )}
-            </div>
-
-            <!-- Title -->
-            <h2 class="font-semibold text-gray-900 text-base leading-snug line-clamp-3">
-              {opp.title}
-            </h2>
-
-            <!-- Organization + LatAm badge -->
-            <div class="flex items-center gap-2 flex-wrap">
-              {opp.organization && (
-                <p class="text-sm text-gray-500 font-medium">{opp.organization}</p>
-              )}
-              {opp.aplica_latam && (
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">
-                  Latam 🌎
-                </span>
-              )}
-            </div>
-
-            <!-- Destination country + source -->
-            <div class="flex items-center gap-3 text-xs text-gray-400 flex-wrap">
-              {opp.pais_destino && (
-                <span class="flex items-center gap-1">
-                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {opp.pais_destino}
-                </span>
-              )}
-              {opp.fuente && (
-                <span class="truncate max-w-[160px]" title={opp.fuente}>
-                  via {opp.fuente}
-                </span>
-              )}
-            </div>
-
-            <!-- AI-generated summary (falls back to nothing if not yet processed) -->
-            {opp.resumen && (
-              <p class="text-sm text-gray-600 leading-relaxed line-clamp-3 flex-1">
-                {opp.resumen}
-              </p>
-            )}
-
-            <!-- CTA -->
-            {opp.link && (
-              <a
-                href={opp.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-auto pt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-gray-900 hover:text-violet-700 transition-colors group"
-              >
-                Ver convocatoria
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            )}
-          </div>
-        </article>
-      ))}
-    </div>
-
-    <!-- Empty state -->
-    <div id="empty-state" class="hidden text-center py-20 text-gray-400">
-      <p class="text-lg font-medium">No hay oportunidades en esta categoría.</p>
+      <div>
+        <span class="stat-num">{countriesCount || '+'}</span>
+        <span class="stat-label">Países cubiertos</span>
+      </div>
+      <div>
+        <span class="stat-num">Diario</span>
+        <span class="stat-label">Actualización</span>
+      </div>
     </div>
   </div>
+  <div class="hero-visual">
+    {heroCards.map((opp, i) => (
+      <div class={`hero-card-float hero-card-${i}`}>
+        <div class="card-title-sm">{opp.title}</div>
+        <div class="card-country">{opp.pais_destino}</div>
+        <span class={`card-badge ${i === 1 ? 'tierra' : ''}`}>{tipoLabel(opp.program_type)}</span>
+      </div>
+    ))}
+  </div>
+</section>
 
-  <script>
-    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const cards   = document.querySelectorAll<HTMLElement>('.opp-card');
-    const empty   = document.getElementById('empty-state')!;
+<!-- FILTROS -->
+<section class="filtros-section">
+  <div class="filtros-row">
+    <span class="filtro-label">Filtrar:</span>
+    <button class="filtro-btn active" data-filter="todos">Todos</button>
+    {programTypes.map(pt => (
+      <button class="filtro-btn" data-filter={pt}>{tipoLabel(pt)}</button>
+    ))}
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Buscar por país, tema..." />
+    </div>
+  </div>
+</section>
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter ?? 'all';
+<!-- GRID -->
+<section class="becas-section">
+  <div class="section-header">
+    <h2 class="section-title">Oportunidades abiertas</h2>
+    <span class="section-count" id="count">Mostrando {opportunities.length}</span>
+  </div>
+  <div class="becas-grid" id="grid">
+    {opportunities.map((opp, i) => (
+      <article
+        class="beca-card"
+        data-tipo={opp.program_type ?? ''}
+        data-pais={(opp.pais_destino ?? '').toLowerCase()}
+        data-titulo={(opp.title ?? '').toLowerCase()}
+        data-idx={i}
+      >
+        <div class="beca-card-top">
+          <span class="beca-pais-flag">
+            {opp.aplica_latam ? '🌎' : '🌐'}
+          </span>
+          <span class={`beca-tipo ${tipoClass(opp.program_type)}`}>
+            {tipoLabel(opp.program_type)}
+          </span>
+        </div>
 
-        buttons.forEach(b => {
-          b.classList.remove('bg-gray-900', 'text-white', 'active');
-          b.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-        });
-        btn.classList.add('bg-gray-900', 'text-white', 'active');
-        btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+        <h3 class="beca-titulo">{opp.title}</h3>
 
-        let visible = 0;
-        cards.forEach(card => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
+        {opp.resumen
+          ? <p class="beca-resumen">{opp.resumen.split('\n\n')[0]}</p>
+          : opp.organization && <p class="beca-resumen" style="font-style:italic">{opp.organization}</p>
+        }
 
-        empty.style.display = visible === 0 ? 'block' : 'none';
-      });
+        <div class="beca-footer">
+          {opp.deadline
+            ? <span class={`beca-fecha ${isUrgent(opp.deadline) ? 'urgente' : ''}`}>
+                {isUrgent(opp.deadline) ? '⏰' : '📅'} Cierra {formatDeadline(opp.deadline)}
+              </span>
+            : <span class="beca-fecha">Sin fecha límite</span>
+          }
+          <span class="beca-pais-texto">{opp.pais_destino ?? '—'}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div id="empty-state" style="display:none" class="empty-state">
+    <p>No hay oportunidades que coincidan con tu búsqueda.</p>
+  </div>
+</section>
+
+<!-- SUBSTACK BANNER -->
+<div class="substack-banner">
+  <h2>No te pierdas ninguna<br><em>oportunidad</em></h2>
+  <p>Cada semana, las mejores becas directamente en tu correo.</p>
+  <div class="substack-input-row">
+    <a href="https://becas.substack.com" target="_blank" rel="noopener" class="btn-aplicar" style="display:inline-block;width:auto;padding:0.8rem 2rem;">
+      Suscribirme en Substack →
+    </a>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- Data bridge for client JS -->
+<script type="application/json" id="opp-data" set:html={JSON.stringify(opportunities)} />
+
+<script>
+  // ── Data ──────────────────────────────────────────────────────────────
+  const opps = JSON.parse(document.getElementById('opp-data')!.textContent!);
+
+  // ── Modal ─────────────────────────────────────────────────────────────
+  const modalOverlay = document.getElementById('modal')!;
+  const modalContent = document.getElementById('modal-content')!;
+
+  function formatDate(d: string | null) {
+    if (!d) return null;
+    return new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function openModal(i: number) {
+    const o = opps[i];
+    const paragraphs = (o.resumen ?? o.description ?? '')
+      .split('\n\n')
+      .filter(Boolean)
+      .map((p: string) => `<p class="modal-resumen">${p}</p>`)
+      .join('');
+
+    modalContent.innerHTML = `
+      <span class="modal-tipo ${o.program_type === 'Scholarship / Internship' ? 'tipo-beca'
+        : o.program_type === 'Innovation Challenge' ? 'tipo-concurso'
+        : o.program_type === 'Emerging Talent' ? 'tipo-residencia'
+        : 'tipo-intercambio'}">
+        ${o.program_type ?? 'Oportunidad'}
+      </span>
+      <h2 class="modal-titulo">${o.title ?? ''}</h2>
+      ${o.pais_destino ? `<p class="modal-pais">📍 ${o.pais_destino}</p>` : ''}
+      ${o.aplica_latam ? `<p class="modal-pais" style="color:#0f7b4c;font-weight:500">🌎 Aplica para Latinoamérica</p>` : ''}
+      <div class="modal-divider"></div>
+      ${paragraphs || '<p class="modal-resumen">Sin descripción disponible.</p>'}
+      <div class="modal-info-grid">
+        <div class="modal-info-item">
+          <div class="modal-info-label">Fecha de cierre</div>
+          <div class="modal-info-value">${formatDate(o.deadline) ?? 'No especificada'}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Organización</div>
+          <div class="modal-info-value">${o.organization ?? '—'}</div>
+        </div>
+        ${o.fuente ? `
+        <div class="modal-info-item">
+          <div class="modal-info-label">Fuente</div>
+          <div class="modal-info-value" style="font-size:0.85rem">${o.fuente}</div>
+        </div>` : ''}
+      </div>
+      ${o.link ? `<a href="${o.link}" target="_blank" rel="noopener noreferrer" class="btn-aplicar">Ver convocatoria oficial →</a>` : ''}
+    `;
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal-close')!.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll<HTMLElement>('.beca-card').forEach(card => {
+    card.addEventListener('click', () => openModal(Number(card.dataset.idx)));
+  });
+
+  // ── Filter + Search ───────────────────────────────────────────────────
+  let activeFilter = 'todos';
+  let searchQuery  = '';
+
+  function applyFilters() {
+    const cards = document.querySelectorAll<HTMLElement>('.beca-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const matchFilter = activeFilter === 'todos' || card.dataset.tipo === activeFilter;
+      const matchSearch = !searchQuery
+        || (card.dataset.pais ?? '').includes(searchQuery)
+        || (card.dataset.titulo ?? '').includes(searchQuery);
+      const show = matchFilter && matchSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
-  </script>
+    document.getElementById('count')!.textContent = `Mostrando ${visible}`;
+    document.getElementById('empty-state')!.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.filtro-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter ?? 'todos';
+      applyFilters();
+    });
+  });
+
+  document.getElementById('search-input')!.addEventListener('input', e => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+    applyFilters();
+  });
+</script>
 
 </body>
 </html>
+
+<style is:global>
+  :root {
+    --verde:       #0f7b4c;
+    --verde-claro: #1aad6a;
+    --crema:       #f7f3ec;
+    --tierra:      #c9622a;
+    --noche:       #0d1117;
+    --texto:       #1a1a2e;
+    --gris:        #6b7280;
+    --borde:       #e5e0d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--crema);
+    border-bottom: 1px solid var(--borde);
+  }
+  .logo {
+    font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700;
+    color: var(--verde); letter-spacing: -0.5px; text-decoration: none;
+  }
+  .logo span { color: var(--tierra); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--gris); font-size: 0.9rem;
+    font-weight: 500; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--verde); }
+  .btn-substack {
+    background: var(--verde) !important; color: white !important;
+    padding: 0.5rem 1.2rem; border-radius: 100px; font-size: 0.85rem !important;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 8rem 3rem 4rem; max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .hero-tag {
+    display: inline-block; background: #e8f5ee; color: var(--verde);
+    font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.8rem;
+    border-radius: 100px; margin-bottom: 1.2rem; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 300;
+    line-height: 1.1; letter-spacing: -1px; margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--verde); }
+  .hero p { color: var(--gris); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2.5rem; }
+  .stat-num {
+    font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700;
+    color: var(--verde); display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--gris); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Hero floating cards */
+  .hero-visual { position: relative; height: 380px; }
+  .hero-card-float {
+    position: absolute; background: white; border-radius: 16px;
+    padding: 1.2rem 1.5rem; box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    border: 1px solid var(--borde);
+  }
+  .hero-card-0 { top: 0; left: 0; width: 280px; animation: floatA 4s ease-in-out infinite; }
+  .hero-card-1 { top: 120px; right: 0; width: 260px; animation: floatB 4s ease-in-out infinite 1s; }
+  .hero-card-2 { bottom: 20px; left: 40px; width: 240px; animation: floatA 4s ease-in-out infinite 2s; }
+  @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+  .card-title-sm { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .card-country { font-size: 0.75rem; color: var(--gris); }
+  .card-badge {
+    display: inline-block; background: #e8f5ee; color: var(--verde);
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    margin-top: 0.6rem; font-weight: 500;
+  }
+  .card-badge.tierra { background: #fdf0e8; color: var(--tierra); }
+
+  /* FILTROS */
+  .filtros-section { max-width: 1200px; margin: 0 auto; padding: 2rem 3rem 1rem; }
+  .filtros-row { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+  .filtro-label { font-size: 0.85rem; color: var(--gris); font-weight: 500; margin-right: 0.5rem; }
+  .filtro-btn {
+    background: white; border: 1px solid var(--borde); color: var(--texto);
+    padding: 0.5rem 1.1rem; border-radius: 100px; font-size: 0.85rem;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; font-weight: 400;
+  }
+  .filtro-btn:hover, .filtro-btn.active {
+    background: var(--verde); color: white; border-color: var(--verde);
+  }
+  .search-bar {
+    margin-left: auto; display: flex; align-items: center;
+    background: white; border: 1px solid var(--borde); border-radius: 100px;
+    padding: 0.5rem 1.1rem; gap: 0.5rem;
+  }
+  .search-bar input {
+    border: none; outline: none; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; color: var(--texto); background: transparent; width: 200px;
+  }
+
+  /* GRID */
+  .becas-section { max-width: 1200px; margin: 0 auto; padding: 2rem 3rem 5rem; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.8rem;
+  }
+  .section-title { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; }
+  .section-count { font-size: 0.85rem; color: var(--gris); }
+
+  .becas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .beca-card {
+    background: white; border: 1px solid var(--borde); border-radius: 16px;
+    padding: 1.5rem; cursor: pointer; transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .beca-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--verde); transform: scaleX(0); transition: transform 0.25s; transform-origin: left;
+  }
+  .beca-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: transparent; }
+  .beca-card:hover::before { transform: scaleX(1); }
+
+  .beca-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .beca-pais-flag { font-size: 1.8rem; }
+  .beca-tipo {
+    font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.7rem;
+    border-radius: 100px; text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .tipo-beca        { background: #e8f5ee; color: var(--verde); }
+  .tipo-intercambio { background: #fdf0e8; color: var(--tierra); }
+  .tipo-concurso    { background: #eef2ff; color: #4f46e5; }
+  .tipo-residencia  { background: #fef9c3; color: #854d0e; }
+
+  .beca-titulo {
+    font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600;
+    line-height: 1.3; margin-bottom: 0.6rem; color: var(--texto);
+  }
+  .beca-resumen {
+    font-size: 0.85rem; color: var(--gris); line-height: 1.6; margin-bottom: 1.2rem;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .beca-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 1rem; border-top: 1px solid var(--borde);
+  }
+  .beca-fecha { font-size: 0.78rem; color: var(--gris); }
+  .beca-fecha.urgente { color: var(--tierra); font-weight: 500; }
+  .beca-pais-texto { font-size: 0.78rem; color: var(--gris); font-weight: 500; }
+
+  .empty-state { text-align: center; padding: 5rem 0; color: var(--gris); font-size: 1rem; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(13,17,23,0.6); backdrop-filter: blur(4px);
+    z-index: 200; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--crema); border-radius: 24px; width: 90%; max-width: 680px;
+    max-height: 85vh; overflow-y: auto; padding: 2.5rem;
+    transform: translateY(20px); transition: transform 0.3s; position: relative;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 1.5rem; right: 1.5rem; background: white;
+    border: 1px solid var(--borde); width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--borde); }
+  .modal-tipo {
+    display: inline-block; font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.8rem;
+    border-radius: 100px; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 1rem;
+  }
+  .modal-titulo {
+    font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 400;
+    line-height: 1.2; margin-bottom: 0.8rem;
+  }
+  .modal-pais { font-size: 0.9rem; color: var(--gris); margin-bottom: 0.5rem; }
+  .modal-divider { height: 1px; background: var(--borde); margin: 1.5rem 0; }
+  .modal-resumen { font-size: 0.95rem; line-height: 1.8; color: #2d3748; margin-bottom: 1rem; }
+  .modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+  .modal-info-item { background: white; border: 1px solid var(--borde); border-radius: 12px; padding: 1rem; }
+  .modal-info-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gris); margin-bottom: 0.3rem; }
+  .modal-info-value { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 600; color: var(--texto); }
+  .btn-aplicar {
+    display: block; width: 100%; background: var(--verde); color: white;
+    text-align: center; padding: 1rem; border-radius: 12px; text-decoration: none;
+    font-weight: 500; font-size: 0.95rem; transition: background 0.2s;
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-aplicar:hover { background: #0a6640; }
+
+  /* SUBSTACK BANNER */
+  .substack-banner { background: var(--noche); color: white; padding: 4rem 3rem; text-align: center; }
+  .substack-banner h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 0.8rem; }
+  .substack-banner h2 em { font-style: italic; color: var(--verde-claro); }
+  .substack-banner p { color: #9ca3af; margin-bottom: 1.8rem; font-size: 0.95rem; }
+  .substack-input-row { display: flex; justify-content: center; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .becas-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links li:not(:last-child) { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .hero h1 { font-size: 2.5rem; }
+    .filtros-section, .becas-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .becas-grid { grid-template-columns: 1fr; }
+    .search-bar { display: none; }
+    .modal-info-grid { grid-template-columns: 1fr; }
+  }
+</style>
