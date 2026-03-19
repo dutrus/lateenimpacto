@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lateen Impacto — Becas para Latinoamérica</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #0f7b4c;
+    --verde-claro: #1aad6a;
+    --crema: #f7f3ec;
+    --tierra: #c9622a;
+    --noche: #0d1117;
+    --texto: #1a1a2e;
+    --gris: #6b7280;
+    --borde: #e5e0d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--crema);
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--verde);
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    color: var(--tierra);
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gris);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--verde); }
+
+  .btn-substack {
+    background: var(--verde);
+    color: white !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.85rem !important;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 8rem 3rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: #e8f5ee;
+    color: var(--verde);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--verde);
+  }
+
+  .hero p {
+    color: var(--gris);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--verde);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-visual {
+    position: relative;
+    height: 380px;
+  }
+
+  .hero-card-float {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    border: 1px solid var(--borde);
+  }
+
+  .hero-card-float:nth-child(1) {
+    top: 0; left: 0;
+    width: 280px;
+    animation: floatA 4s ease-in-out infinite;
+  }
+
+  .hero-card-float:nth-child(2) {
+    top: 120px; right: 0;
+    width: 260px;
+    animation: floatB 4s ease-in-out infinite 1s;
+  }
+
+  .hero-card-float:nth-child(3) {
+    bottom: 20px; left: 40px;
+    width: 240px;
+    animation: floatA 4s ease-in-out infinite 2s;
+  }
+
+  @keyframes floatA {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes floatB {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  .card-flag { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .card-title-sm { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .card-country { font-size: 0.75rem; color: var(--gris); }
+  .card-badge {
+    display: inline-block;
+    background: #e8f5ee;
+    color: var(--verde);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    margin-top: 0.6rem;
+    font-weight: 500;
+  }
+  .card-badge.tierra { background: #fdf0e8; color: var(--tierra); }
+
+  /* FILTROS */
+  .filtros-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 3rem 1rem;
+  }
+
+  .filtros-row {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filtro-label {
+    font-size: 0.85rem;
+    color: var(--gris);
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  .filtro-btn {
+    background: white;
+    border: 1px solid var(--borde);
+    color: var(--texto);
+    padding: 0.5rem 1.1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .filtro-btn:hover, .filtro-btn.active {
+    background: var(--verde);
+    color: white;
+    border-color: var(--verde);
+  }
+
+  .search-bar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 100px;
+    padding: 0.5rem 1.1rem;
+    gap: 0.5rem;
+  }
+
+  .search-bar input {
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--texto);
+    background: transparent;
+    width: 200px;
+  }
+
+  .search-icon { color: var(--gris); font-size: 0.9rem; }
+
+  /* GRID DE BECAS */
+  .becas-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 3rem 5rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.8rem;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+
+  .section-count {
+    font-size: 0.85rem;
+    color: var(--gris);
+  }
+
+  .becas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .beca-card {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .beca-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--verde);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+    transform-origin: left;
+  }
+
+  .beca-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    border-color: transparent;
+  }
+
+  .beca-card:hover::before { transform: scaleX(1); }
+
+  .beca-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .beca-pais-flag { font-size: 1.8rem; }
+
+  .beca-tipo {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .tipo-beca { background: #e8f5ee; color: var(--verde); }
+  .tipo-intercambio { background: #fdf0e8; color: var(--tierra); }
+  .tipo-concurso { background: #eef2ff; color: #4f46e5; }
+  .tipo-residencia { background: #fef9c3; color: #854d0e; }
+
+  .beca-titulo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.6rem;
+    color: var(--texto);
+  }
+
+  .beca-resumen {
+    font-size: 0.85rem;
+    color: var(--gris);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .beca-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borde);
+  }
+
+  .beca-fecha {
+    font-size: 0.78rem;
+    color: var(--gris);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .beca-fecha.urgente { color: var(--tierra); font-weight: 500; }
+
+  .beca-pais-texto {
+    font-size: 0.78rem;
+    color: var(--gris);
+    font-weight: 500;
+  }
+
+  /* MODAL DETALLE */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 17, 23, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--crema);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 680px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2.5rem;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    position: relative;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: white;
+    border: 1px solid var(--borde);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: var(--borde); }
+
+  .modal-flag { font-size: 3rem; margin-bottom: 1rem; }
+
+  .modal-tipo {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 1rem;
+  }
+
+  .modal-titulo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  .modal-pais {
+    font-size: 0.9rem;
+    color: var(--gris);
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: var(--borde);
+    margin: 1.5rem 0;
+  }
+
+  .modal-resumen {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .modal-info-item {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  .modal-info-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gris);
+    margin-bottom: 0.3rem;
+  }
+
+  .modal-info-value {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--texto);
+  }
+
+  .btn-aplicar {
+    display: block;
+    width: 100%;
+    background: var(--verde);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-aplicar:hover { background: #0a6640; }
+
+  /* BANNER SUBSTACK */
+  .substack-banner {
+    background: var(--noche);
+    color: white;
+    padding: 4rem 3rem;
+    text-align: center;
+  }
+
+  .substack-banner h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    margin-bottom: 0.8rem;
+  }
+
+  .substack-banner h2 em {
+    font-style: italic;
+    color: var(--verde-claro);
+  }
+
+  .substack-banner p {
+    color: #9ca3af;
+    margin-bottom: 1.8rem;
+    font-size: 0.95rem;
+  }
+
+  .substack-input-row {
+    display: flex;
+    gap: 0.8rem;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .substack-input-row input {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    border-radius: 100px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+  }
+
+  .substack-input-row button {
+    background: var(--verde);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .substack-input-row button:hover { background: var(--verde-claro); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Lateen <span>Impacto</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Becas</a></li>
+    <li><a href="#">Países</a></li>
+    <li><a href="#">Sobre el proyecto</a></li>
+    <li><a href="#" class="btn-substack">Newsletter →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <span class="hero-tag">✦ Actualizado automáticamente</span>
+    <h1>Oportunidades reales<br>para <em>América Latina</em></h1>
+    <p>Becas, intercambios y residencias filtrados y traducidos al español. Sin ruido, sin barreras de idioma.</p>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">247</span>
+        <span class="stat-label">Oportunidades activas</span>
+      </div>
+      <div>
+        <span class="stat-num">18</span>
+        <span class="stat-label">Países cubiertos</span>
+      </div>
+      <div>
+        <span class="stat-num">Diario</span>
+        <span class="stat-label">Actualización</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-float">
+      <div class="card-flag">🇩🇪</div>
+      <div class="card-title-sm">DAAD — Becas de Posgrado</div>
+      <div class="card-country">Alemania · Para latinoamericanos</div>
+      <span class="card-badge">Beca completa</span>
+    </div>
+    <div class="hero-card-float">
+      <div class="card-flag">🇯🇵</div>
+      <div class="card-title-sm">MEXT Scholarship 2025</div>
+      <div class="card-country">Japón · Grado y Posgrado</div>
+      <span class="card-badge tierra">Cierra en 12 días</span>
+    </div>
+    <div class="hero-card-float">
+      <div class="card-flag">🇺🇸</div>
+      <div class="card-title-sm">Fulbright para Latinoamérica</div>
+      <div class="card-country">Estados Unidos · Investigación</div>
+      <span class="card-badge">Intercambio</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<section class="filtros-section">
+  <div class="filtros-row">
+    <span class="filtro-label">Filtrar:</span>
+    <button class="filtro-btn active" onclick="filtrar(this, 'todos')">Todos</button>
+    <button class="filtro-btn" onclick="filtrar(this, 'beca')">Becas</button>
+    <button class="filtro-btn" onclick="filtrar(this, 'intercambio')">Intercambios</button>
+    <button class="filtro-btn" onclick="filtrar(this, 'residencia')">Residencias</button>
+    <button class="filtro-btn" onclick="filtrar(this, 'concurso')">Concursos</button>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Buscar por país, tema..." oninput="buscar(this.value)">
+    </div>
+  </div>
+</section>
+
+<!-- GRID -->
+<section class="becas-section">
+  <div class="section-header">
+    <h2 class="section-title">Oportunidades abiertas</h2>
+    <span class="section-count" id="count">Mostrando 6 de 247</span>
+  </div>
+  <div class="becas-grid" id="grid">
+
+    <div class="beca-card" data-tipo="beca" data-pais="Alemania" onclick="abrirModal(0)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇩🇪</span>
+        <span class="beca-tipo tipo-beca">Beca</span>
+      </div>
+      <h3 class="beca-titulo">DAAD — Becas de Posgrado para Latinoamérica</h3>
+      <p class="beca-resumen">El Servicio Alemán de Intercambio Académico financia estudios de maestría y doctorado en universidades alemanas. Cubre matrícula, seguro y manutención mensual.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha urgente">⏰ Cierra 15 abr 2025</span>
+        <span class="beca-pais-texto">Alemania</span>
+      </div>
+    </div>
+
+    <div class="beca-card" data-tipo="intercambio" data-pais="Japón" onclick="abrirModal(1)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇯🇵</span>
+        <span class="beca-tipo tipo-intercambio">Intercambio</span>
+      </div>
+      <h3 class="beca-titulo">Beca MEXT — Gobierno de Japón 2025</h3>
+      <p class="beca-resumen">El gobierno japonés ofrece becas completas para estudios de grado, posgrado e investigación. Incluye pasaje aéreo, alojamiento y estipendio mensual.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha urgente">⏰ Cierra 28 abr 2025</span>
+        <span class="beca-pais-texto">Japón</span>
+      </div>
+    </div>
+
+    <div class="beca-card" data-tipo="beca" data-pais="Estados Unidos" onclick="abrirModal(2)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇺🇸</span>
+        <span class="beca-tipo tipo-beca">Beca</span>
+      </div>
+      <h3 class="beca-titulo">Fulbright — Programa para América Latina</h3>
+      <p class="beca-resumen">Programa de intercambio académico del gobierno estadounidense. Financia investigación, estudios de posgrado y proyectos de artes en universidades de EE.UU.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha">📅 Cierra 30 jun 2025</span>
+        <span class="beca-pais-texto">Estados Unidos</span>
+      </div>
+    </div>
+
+    <div class="beca-card" data-tipo="residencia" data-pais="Francia" onclick="abrirModal(3)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇫🇷</span>
+        <span class="beca-tipo tipo-residencia">Residencia</span>
+      </div>
+      <h3 class="beca-titulo">Cité Internationale des Arts — París</h3>
+      <p class="beca-resumen">Residencia artística en el corazón de París para artistas visuales, músicos y escritores de América Latina. Incluye estudio, alojamiento y acceso a la red cultural francesa.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha">📅 Cierra 15 may 2025</span>
+        <span class="beca-pais-texto">Francia</span>
+      </div>
+    </div>
+
+    <div class="beca-card" data-tipo="concurso" data-pais="España" onclick="abrirModal(4)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇪🇸</span>
+        <span class="beca-tipo tipo-concurso">Concurso</span>
+      </div>
+      <h3 class="beca-titulo">Premio Iberoamericano de Narrativa — Casa de América</h3>
+      <p class="beca-resumen">Convocatoria abierta para escritores latinoamericanos menores de 35 años. Premio en metálico, publicación y residencia de un mes en Madrid.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha">📅 Cierra 1 jul 2025</span>
+        <span class="beca-pais-texto">España</span>
+      </div>
+    </div>
+
+    <div class="beca-card" data-tipo="beca" data-pais="Corea" onclick="abrirModal(5)">
+      <div class="beca-card-top">
+        <span class="beca-pais-flag">🇰🇷</span>
+        <span class="beca-tipo tipo-beca">Beca</span>
+      </div>
+      <h3 class="beca-titulo">GKS — Beca del Gobierno de Corea del Sur</h3>
+      <p class="beca-resumen">El programa Global Korea Scholarship financia estudios de grado y posgrado en universidades coreanas. Incluye matrícula completa, alojamiento, seguro médico y clases de coreano.</p>
+      <div class="beca-footer">
+        <span class="beca-fecha urgente">⏰ Cierra 10 abr 2025</span>
+        <span class="beca-pais-texto">Corea del Sur</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BANNER SUBSTACK -->
+<div class="substack-banner">
+  <h2>No te pierdas ninguna<br><em>oportunidad</em></h2>
+  <p>Cada semana, las mejores becas directamente en tu correo.</p>
+  <div class="substack-input-row">
+    <input type="email" placeholder="tu@email.com">
+    <button>Suscribirme →</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="cerrarModalOverlay(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+  const becas = [
+    {
+      flag: '🇩🇪', tipo: 'Beca', tipoClass: 'tipo-beca',
+      titulo: 'DAAD — Becas de Posgrado para Latinoamérica',
+      pais: 'Alemania',
+      fecha: '15 de abril, 2025',
+      nivel: 'Maestría / Doctorado',
+      resumen: 'El Servicio Alemán de Intercambio Académico (DAAD) es una de las organizaciones más prestigiosas del mundo en movilidad académica. Esta convocatoria está especialmente diseñada para estudiantes latinoamericanos que sueñan con formarse en universidades de excelencia alemana.\n\nSi tu pasión es la investigación, las ciencias, las humanidades o las artes, esta beca financia tu matrícula completa, te otorga un estipendio mensual para vivir en Alemania y te incluye en una red de alumni que te abrirá puertas en toda América Latina. El proceso de postulación valora el mérito académico y el potencial de impacto en tu comunidad de origen.',
+      link: '#'
+    },
+    {
+      flag: '🇯🇵', tipo: 'Intercambio', tipoClass: 'tipo-intercambio',
+      titulo: 'Beca MEXT — Gobierno de Japón 2025',
+      pais: 'Japón',
+      fecha: '28 de abril, 2025',
+      nivel: 'Grado / Posgrado / Investigación',
+      resumen: 'La beca MEXT es uno de los programas más completos que ofrece un gobierno extranjero. El Ministerio de Educación de Japón financia íntegramente tu experiencia académica en el país del sol naciente, cubriendo desde el pasaje aéreo hasta el alojamiento y un estipendio mensual generoso.\n\nMás allá de lo académico, vivir en Japón es una transformación personal. La beca incluye clases intensivas de japonés antes del inicio de tus estudios y te conecta con una comunidad latinoamericana activa que ya atravesó esta misma experiencia. Es tu oportunidad de ser puente entre dos culturas.',
+      link: '#'
+    },
+    {
+      flag: '🇺🇸', tipo: 'Beca', tipoClass: 'tipo-beca',
+      titulo: 'Fulbright — Programa para América Latina',
+      pais: 'Estados Unidos',
+      fecha: '30 de junio, 2025',
+      nivel: 'Posgrado / Investigación',
+      resumen: 'El programa Fulbright lleva décadas siendo sinónimo de excelencia académica y liderazgo internacional. Para latinoamericanos, representa la oportunidad de acceder a las mejores universidades de Estados Unidos con financiamiento completo y el respaldo de una red de alumni que incluye premios Nobel, jefes de Estado y líderes culturales.\n\nLa propuesta de Fulbright no es solo académica: busca personas con vocación de impacto que, al regresar a sus países, multipliquen lo aprendido. Si tenés un proyecto de investigación o una visión clara de cómo querés transformar tu comunidad, esta es tu convocatoria.',
+      link: '#'
+    },
+    {
+      flag: '🇫🇷', tipo: 'Residencia', tipoClass: 'tipo-residencia',
+      titulo: 'Cité Internationale des Arts — París',
+      pais: 'Francia',
+      fecha: '15 de mayo, 2025',
+      nivel: 'Artistas profesionales',
+      resumen: 'La Cité Internationale des Arts es el centro de residencias artísticas más importante de Europa, ubicado en el corazón histórico de París. Cada año selecciona a artistas visuales, músicos, escritores y performers de todo el mundo para vivir y crear en estudios completamente equipados a orillas del Sena.\n\nPara artistas latinoamericanos, esta residencia representa mucho más que un espacio de trabajo: es la posibilidad de dialogar con creadores de 60 países, acceder a la escena cultural parisina y construir una carrera con proyección internacional. La convocatoria valora proyectos artísticos con voz propia y perspectiva latinoamericana.',
+      link: '#'
+    },
+    {
+      flag: '🇪🇸', tipo: 'Concurso', tipoClass: 'tipo-concurso',
+      titulo: 'Premio Iberoamericano de Narrativa — Casa de América',
+      pais: 'España',
+      fecha: '1 de julio, 2025',
+      nivel: 'Escritores menores de 35 años',
+      resumen: 'La Casa de América de Madrid convoca a escritores latinoamericanos menores de 35 años a presentar su obra narrativa inédita en español. El premio incluye una dotación económica significativa, la publicación del libro ganador y una residencia de un mes en Madrid con agenda cultural y editorial.\n\nEste concurso es una de las pocas ventanas directas al mercado editorial español para voces emergentes de América Latina. Los finalistas anteriores han conseguido representación literaria y traducciones a otros idiomas. Si escribís y tenés algo que decirle al mundo, este es el momento.',
+      link: '#'
+    },
+    {
+      flag: '🇰🇷', tipo: 'Beca', tipoClass: 'tipo-beca',
+      titulo: 'GKS — Beca del Gobierno de Corea del Sur',
+      pais: 'Corea del Sur',
+      fecha: '10 de abril, 2025',
+      nivel: 'Grado / Posgrado',
+      resumen: 'El programa Global Korea Scholarship es la apuesta más ambiciosa del gobierno coreano para atraer talento internacional a sus universidades. Para latinoamericanos, representa una oportunidad única de formarse en una de las economías más innovadoras del mundo, con financiamiento completo y cero aranceles.\n\nCorea del Sur es hoy una potencia en tecnología, diseño, cine, gastronomía y cultura pop global. Estudiar allí no solo te da una formación de primer nivel: te posiciona en un mercado laboral globalizado donde las conexiones con Asia son cada vez más valiosas. La beca incluye clases de coreano, alojamiento en campus y seguro médico completo.',
+      link: '#'
+    }
+  ];
+
+  function abrirModal(i) {
+    const b = becas[i];
+    const parrafos = b.resumen.split('\n\n').map(p => `<p class="modal-resumen">${p}</p>`).join('');
+    document.getElementById('modal-content').innerHTML = `
+      <div class="modal-flag">${b.flag}</div>
+      <span class="modal-tipo ${b.tipoClass}">${b.tipo}</span>
+      <h2 class="modal-titulo">${b.titulo}</h2>
+      <p class="modal-pais">📍 ${b.pais}</p>
+      <div class="modal-divider"></div>
+      ${parrafos}
+      <div class="modal-info-grid">
+        <div class="modal-info-item">
+          <div class="modal-info-label">Fecha de cierre</div>
+          <div class="modal-info-value">${b.fecha}</div>
+        </div>
+        <div class="modal-info-item">
+          <div class="modal-info-label">Nivel académico</div>
+          <div class="modal-info-value">${b.nivel}</div>
+        </div>
+      </div>
+      <a href="${b.link}" class="btn-aplicar">Ver convocatoria oficial →</a>
+    `;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrarModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function cerrarModalOverlay(e) {
+    if (e.target === document.getElementById('modal')) cerrarModal();
+  }
+
+  let filtroActivo = 'todos';
+  let busquedaActiva = '';
+
+  function filtrar(btn, tipo) {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtroActivo = tipo;
+    aplicarFiltros();
+  }
+
+  function buscar(val) {
+    busquedaActiva = val.toLowerCase();
+    aplicarFiltros();
+  }
+
+  function aplicarFiltros() {
+    const cards = document.querySelectorAll('.beca-card');
+    let visibles = 0;
+    cards.forEach(card => {
+      const tipo = card.dataset.tipo;
+      const pais = card.dataset.pais.toLowerCase();
+      const titulo = card.querySelector('.beca-titulo').textContent.toLowerCase();
+      const matchTipo = filtroActivo === 'todos' || tipo === filtroActivo;
+      const matchBusqueda = !busquedaActiva || pais.includes(busquedaActiva) || titulo.includes(busquedaActiva);
+      if (matchTipo && matchBusqueda) {
+        card.style.display = '';
+        visibles++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    document.getElementById('count').textContent = `Mostrando ${visibles} de 247`;
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+</script>
+</body>
+</html>
